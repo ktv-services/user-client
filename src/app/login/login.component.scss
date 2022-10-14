@@ -1,0 +1,63 @@
+@import 'src/assets/scss/base';
+
+.main {
+  height: 100vh;
+  background-color: $background-purple-light;
+  padding-top: 100px;
+
+  .name {
+    text-align: center;
+    margin-bottom: 20px;
+    color: $base-color;
+    font-size: 40px;
+  }
+
+  .login-block {
+    background-color: $white-color;
+    padding: 30px 40px;
+    width: 30vw;
+    margin: 0 auto;
+
+    @include laptop {
+      width: 40vw;
+    }
+    @include tablet {
+      width: 50vw;
+    }
+    @include mobile {
+      width: 70vw;
+    }
+    @include mini-mobile {
+      width: 80vw;
+    }
+
+    .title {
+      @include title(2rem, 20px);
+    }
+
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .social {
+      margin-top: 25px;
+      img {
+        height: 35px;
+        cursor: pointer;
+        margin-right: 15px;
+      }
+    }
+  }
+  .blocked {
+    margin: 50px auto 0 auto;
+    width: 400px;
+    text-align: center;
+    background: #e26c5f;
+    padding: 20px 40px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+  }
+}

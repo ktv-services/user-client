@@ -1,0 +1,47 @@
+<div class="content-block">
+  <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
+    <h1 class="display-5 title">{{ 'createUser' | translate }}</h1>
+
+    <div class="form-line">
+      <mat-form-field class="example-full-width" appearance="legacy">
+        <mat-label>{{ 'email' | translate }}</mat-label>
+        <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+        <mat-error *ngIf="createUserForm.controls.email.invalid">
+          {{ 'emailValidation' | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-line">
+      <mat-form-field class="example-full-width" appearance="legacy">
+        <mat-label>{{ 'password' | translate }}</mat-label>
+        <input type="password" matInput formControlName="password">
+        <mat-error *ngIf="createUserForm.controls.password.invalid">
+          {{ 'passwordValidation' | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-line">
+      <mat-form-field appearance="legacy">
+        <mat-label>{{ 'role' | translate }}</mat-label>
+        <mat-select matNativeControl formControlName="role">
+          <mat-option *ngFor="let role of roles" [value]="role">{{role.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-line">
+      <mat-form-field appearance="legacy">
+        <mat-label>{{ 'status' | translate }}</mat-label>
+        <mat-select matNativeControl formControlName="status">
+          <mat-option *ngFor="let status of statuses" [value]="status.key">{{status.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-line">
+      <button mat-raised-button color="primary" [disabled]="!createUserForm.valid">{{ 'submit' | translate }}</button>
+    </div>
+  </form>
+</div>

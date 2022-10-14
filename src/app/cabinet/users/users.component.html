@@ -1,0 +1,64 @@
+<div class="content-block">
+  <h1 class="title">{{ 'filter' | translate }}</h1>
+  <div class="filter" fxLayout="row">
+    <form [formGroup]="usersFilterForm">
+      <mat-form-field class="example-full-width" appearance="legacy">
+        <mat-label>{{ 'email' | translate }}</mat-label>
+        <input type="email" formControlName="email" matInput placeholder="{{ 'email' | translate }}">
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy">
+        <mat-label>{{ 'role' | translate }}</mat-label>
+        <mat-select formControlName="role" matNativeControl>
+          <mat-option *ngFor="let role of roles" [value]="role.name">{{role.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy">
+        <mat-label>{{ 'status' | translate }}</mat-label>
+        <mat-select formControlName="status" matNativeControl>
+          <mat-option *ngFor="let status of statuses" [value]="status.key">{{status.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="warn" (click)="clearFilters()">{{ 'clear' | translate }}</button>
+    </form>
+  </div>
+  <mat-divider></mat-divider>
+
+  <div class="data">
+    <div class="header" fxLayout="row">
+      <h1 class="title">{{ 'users' | translate }}</h1>
+      <button mat-raised-button color="primary" class="create-btn" [routerLink]="['/cabinet/users/create']">{{ 'create' | translate }}</button>
+    </div>
+    <table mat-table [dataSource]="paginationService.dataSource" class="mat-elevation-z8" *ngIf="users.length > 0;else no_data">
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> {{ 'email' | translate }} </th>
+        <td mat-cell *matCellDef="let element">{{element.email}}</td>
+      </ng-container>
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef> {{ 'role' | translate }} </th>
+        <td mat-cell *matCellDef="let element">{{element.role.name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> {{ 'status' | translate }} </th>
+        <td mat-cell *matCellDef="let element">{{element.status}}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> {{ 'action' | translate }} </th>
+        <td mat-cell *matCellDef="let element"><a mat-raised-button [routerLink]="['/cabinet/users/' + element._id]" >{{ 'open' | translate }}</a></td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <ng-container *ngIf="users.length > 0">
+      <mat-paginator [length]="users.length"
+                     [pageSize]="paginationService.pageSize"
+                     [pageIndex]="paginationService.currentPage"
+                     [pageSizeOptions]="[5, 10, 25, 100]"
+                     (page)="paginationService.handlePage($event, users)"
+                     aria-label="Select page">
+      </mat-paginator>
+    </ng-container>
+    <ng-template #no_data>{{ 'notEntries' | translate }} ...</ng-template>
+  </div>
+</div>

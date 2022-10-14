@@ -1,0 +1,47 @@
+@import 'src/assets/scss/base';
+
+.content-block {
+  @include content-block();
+
+  .title {
+    @include title();
+  }
+
+  mat-card {
+    margin-bottom: 20px;
+    position: relative;
+    mat-card-title {
+      font-size: 16px;
+    }
+  }
+
+  button {
+    margin-right: 10px;
+  }
+
+  &.info {
+    width: 60%;
+    margin-right: 50px;
+  }
+  &.social {
+    width: 40%;
+
+    img {
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      &.facebook {
+        color: $facebook-color;
+      }
+      &.google {
+        color: $google-color;
+      }
+    }
+    .unbind {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+  }
+}

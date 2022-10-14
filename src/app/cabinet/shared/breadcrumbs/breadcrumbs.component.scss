@@ -1,0 +1,19 @@
+@import 'src/assets/scss/base';
+
+.breadcrumb {
+
+  .active {
+    color: $base-grey;
+  }
+
+  a {
+    color: $base-color;
+  }
+
+  li {
+    .breadcrumb-divider {
+      margin: 0 5px;
+      color: $base-color;
+    }
+  }
+}

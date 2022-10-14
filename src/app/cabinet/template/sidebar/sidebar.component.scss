@@ -1,0 +1,15 @@
+@import 'src/assets/scss/base';
+
+mat-list {
+  background: $white-color;
+  border-radius: 4px;
+  padding: 10px;
+  @include shadow-block();
+
+  a {
+    color: $base-dark-grey;
+    &:hover {
+      color: $base-grey;
+    }
+  }
+}
