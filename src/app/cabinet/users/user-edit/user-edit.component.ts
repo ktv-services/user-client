@@ -66,9 +66,9 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     const user: UserEditDto = {
-      email: this.editUserForm.value.email,
+      email: this.editUserForm.value.email ?? '',
       role: (this.editUserForm.value.role === '0') ? this.roles[0] : (this.roles.filter(role => role.name === this.editUserForm.value.role)[0]),
-      status: (this.editUserForm.value.status === '0') ? this.statuses[0].key : this.editUserForm.value.status
+      status: (this.editUserForm.value.status === '0') ? this.statuses[0].key : this.editUserForm.value.status ?? ''
     };
 
     this.translateService.get('editedUserSuccess').pipe(takeUntil(this.unsubscribe$)).subscribe((text) => {
@@ -82,7 +82,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
+    this.unsubscribe$.next(true);
     this.unsubscribe$.complete();
   }
 

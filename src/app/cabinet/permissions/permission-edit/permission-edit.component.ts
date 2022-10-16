@@ -54,8 +54,8 @@ export class PermissionEditComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     const permission: PermissionCreateDto = {
-      name: this.editPermissionForm.value.name,
-      status: (this.editPermissionForm.value.status === '0') ? this.statuses[0].key : this.editPermissionForm.value.status
+      name: this.editPermissionForm.value.name ?? '',
+      status: (this.editPermissionForm.value.status === '0') ? this.statuses[0].key : this.editPermissionForm.value.status ?? '',
     };
     this.translateService.get('editedPermissionSuccess').pipe(takeUntil(this.unsubscribe$)).subscribe((text) => {
       this.store.dispatch(editPermission({ permissionId: this.id, permission: permission, apiMessage: text }));
@@ -72,7 +72,7 @@ export class PermissionEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
+    this.unsubscribe$.next(true);
     this.unsubscribe$.complete();
   }
 

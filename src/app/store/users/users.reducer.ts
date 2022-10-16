@@ -1,6 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { initialState, UsersState } from './users.state';
 import * as UserActions from './users.actions';
+import { User } from '../../models/cabinet/users/user';
 
 
 const usersReducer = createReducer(
@@ -12,7 +13,7 @@ const usersReducer = createReducer(
   })),
   on(UserActions.createUserSuccess, (state, { user, apiMessage }) => {
     const updatedUsers = [...state.users];
-    updatedUsers.push(user);
+    updatedUsers.push(user as User);
     return {
       ...state,
       users: updatedUsers,

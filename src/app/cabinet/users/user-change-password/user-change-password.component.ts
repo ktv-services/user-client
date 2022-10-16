@@ -42,7 +42,7 @@ export class UserChangePasswordComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     const password: UserChangePasswordDto = {
-      password: this.changePasswordUserForm.value.password
+      password: this.changePasswordUserForm.value.password ?? ''
     }
     this.translateService.get('changedUserPasswordSuccess').pipe(takeUntil(this.unsubscribe$)).subscribe((text) => {
       this.store.dispatch(changePasswordUser({ id: this.id, password: password, apiMessage:  text }));
@@ -64,7 +64,7 @@ export class UserChangePasswordComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
+    this.unsubscribe$.next(true);
     this.unsubscribe$.complete();
   }
 

@@ -18,7 +18,7 @@ export class BreadcrumbsComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.pipe(filter(event => event instanceof ActivationStart)).subscribe((event) => {
       if (event instanceof ActivationStart) {
-        const data = event.snapshot.data.breadcrumb;
+        const data = event.snapshot.data['breadcrumb'];
         if (typeof data !== 'undefined') {
           this.isData = true;
           this.isHomePage = data.label === 'Home';

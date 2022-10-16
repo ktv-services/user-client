@@ -29,7 +29,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
       Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
     ]),
     password: new FormControl('', [Validators.required]),
-    role: new FormControl('0'),
+    role: new FormControl(),
     status: new FormControl('0'),
   });
   public roles: Array<RolesListDto>;
@@ -54,10 +54,10 @@ export class UserCreateComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     const user: UserCreateDto = {
-      email: this.createUserForm.value.email,
-      password: this.createUserForm.value.password,
-      role: (this.createUserForm.value.role === '0') ? this.roles[0] : this.createUserForm.value.role,
-      status: (this.createUserForm.value.status === '0') ? this.statuses[0].key : this.createUserForm.value.status
+      email: this.createUserForm.value.email ?? '',
+      password: this.createUserForm.value.password ?? '',
+      role: (this.createUserForm.value.role === '0') ? this.roles[0] : this.createUserForm.value.role ?? null,
+      status: (this.createUserForm.value.status === '0') ? this.statuses[0].key : this.createUserForm.value.status ?? ''
     };
     this.translateService.get('createdUserSuccess').pipe(takeUntil(this.unsubscribe$)).subscribe((text) => {
       this.store.dispatch(createUser({ user: user, apiMessage:  text }));
@@ -71,7 +71,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
+    this.unsubscribe$.next(true);
     this.unsubscribe$.complete();
   }
 

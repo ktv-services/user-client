@@ -3,6 +3,6 @@ import { Role } from '../../role';
 export interface UserCreateDto {
   email: string;
   password: string;
-  role: Role;
+  role: Role | null;
   status: string;
 }

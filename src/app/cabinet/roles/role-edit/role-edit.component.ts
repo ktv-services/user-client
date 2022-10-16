@@ -26,7 +26,7 @@ export class RoleEditComponent implements OnInit, OnDestroy {
   public editRoleForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     status: new FormControl('0'),
-    permissions: new FormControl([]),
+    permissions: new FormControl(),
   });
   public statuses: Array<Status>;
   public role: RoleCreateDto;
@@ -60,9 +60,9 @@ export class RoleEditComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     const role: RoleCreateDto = {
-      name: this.editRoleForm.value.name,
-      status: (this.editRoleForm.value.status === '0') ? this.statuses[0].key : this.editRoleForm.value.status,
-      permissions: this.editRoleForm.value.permissions,
+      name: this.editRoleForm.value.name ?? '',
+      status: (this.editRoleForm.value.status === '0') ? this.statuses[0].key : this.editRoleForm.value.status ?? '',
+      permissions: this.editRoleForm.value.permissions ? this.editRoleForm.value.permissions : null,
     };
     this.translateService.get('editedRoleSuccess').pipe(takeUntil(this.unsubscribe$)).subscribe((text) => {
       this.store.dispatch(editRole({ roleId: this.id, role: role, apiMessage: text }));
@@ -80,7 +80,7 @@ export class RoleEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
+    this.unsubscribe$.next(true);
     this.unsubscribe$.complete();
   }
 

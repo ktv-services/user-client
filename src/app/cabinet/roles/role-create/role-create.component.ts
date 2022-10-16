@@ -49,9 +49,9 @@ export class RoleCreateComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     const role: RoleCreateDto = {
-      name: this.createRoleForm.value.name,
-      status: (this.createRoleForm.value.status === '0') ? this.statuses[0].key : this.createRoleForm.value.status,
-      permissions: this.createRoleForm.value.permissions,
+      name: this.createRoleForm.value.name ?? '',
+      status: (this.createRoleForm.value.status === '0') ? this.statuses[0].key : this.createRoleForm.value.status ?? '',
+      permissions: this.createRoleForm.value.permissions ? this.createRoleForm.value.permissions : null,
     };
     this.translateService.get('createdRoleSuccess').pipe(takeUntil(this.unsubscribe$)).subscribe((text) => {
       this.store.dispatch(createRole({ role: role, apiMessage:  text }));
@@ -64,7 +64,7 @@ export class RoleCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
+    this.unsubscribe$.next(true);
     this.unsubscribe$.complete();
   }
 

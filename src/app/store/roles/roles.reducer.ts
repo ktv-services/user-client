@@ -1,6 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { initialState, RolesState } from './roles.state';
 import * as RoleActions from './roles.actions';
+import { Role } from '../../models/cabinet/users/role';
 
 
 const rolesReducer = createReducer(
@@ -12,7 +13,7 @@ const rolesReducer = createReducer(
   })),
   on(RoleActions.createRoleSuccess, (state, { role, apiMessage }) => {
     const updatedRoles = [...state.roles];
-    updatedRoles.push(role);
+    updatedRoles.push(role as Role);
     return {
       ...state,
       roles: updatedRoles,
@@ -25,7 +26,7 @@ const rolesReducer = createReducer(
     );
     const updatedRoles = [...state.roles];
     updatedRoles.splice(roleItemIndex, 1);
-    updatedRoles.push(role);
+    updatedRoles.push(role as Role);
     return {
       ...state,
       roles: updatedRoles,
