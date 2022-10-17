@@ -14,7 +14,7 @@ export class LoginService {
   private headers: HttpHeaders;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = 'http://localhost:9999/auth/';
+    this.baseUrl = 'http://localhost:3000/auth/';
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
   }
 

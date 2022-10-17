@@ -13,7 +13,7 @@ export class PermissionService {
   private baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = 'http://localhost:9999/permissions/';
+    this.baseUrl = 'http://localhost:3000/permissions/';
   }
 
   public getPermissions(): Observable<any> {

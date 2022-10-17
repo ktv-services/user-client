@@ -15,7 +15,7 @@ export class UserService {
   private baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = 'http://localhost:9999/users/';
+    this.baseUrl = 'http://localhost:3000/users/';
   }
 
   public getUsers(): Observable<User[] | any> {
@@ -39,7 +39,7 @@ export class UserService {
   }
 
   public changePasswordUser(id: string, password: UserChangePasswordDto): Observable<any> {
-    return this.http.put(this.baseUrl + id, password)
+    return this.http.put(this.baseUrl + id + '/change-password', password)
       .pipe(catchError(this.error));
   }
 
