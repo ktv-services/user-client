@@ -42,7 +42,7 @@ export class RoleCreateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.statuses = statuses;
-    this.permissionService.getActivePermissions().pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
+    this.permissionService.getPermissions(true).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
       this.permissions = response;
     });
   }

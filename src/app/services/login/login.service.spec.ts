@@ -7,7 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SocialUser } from '../../models/login/social-user';
 
 
-describe('Loginervice', () => {
+describe('LoginService', () => {
   let service: LoginService;
   let httpSpy: Spy<HttpClient>;
   const fakeLogin: Login = {

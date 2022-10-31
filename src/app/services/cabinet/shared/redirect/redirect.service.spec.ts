@@ -28,16 +28,13 @@ describe('LoginService', () => {
     service = TestBed.inject(RedirectService);
   });
 
-
-  /*it('should be properly redirect', () => {
-    const link = '/login';
+  it('should be properly redirect', () => {
+    /*const link = '/login';
     const time = 100;
 
     service.redirect(link, time);
     //mockRouter.navigate(['/login']);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
-  });*/
-
-
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);*/
+  });
 
 });

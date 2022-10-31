@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { PermissionCreateDto } from '../../../models/cabinet/users/dtos/permission/permission-create-dto';
-import { Permission } from '../../../models/cabinet/users/permission';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +15,10 @@ export class PermissionService {
     this.baseUrl = 'http://localhost:3000/permissions/';
   }
 
-  public getPermissions(): Observable<any> {
-    return this.http.get(this.baseUrl)
+  public getPermissions(active = false): Observable<any> {
+    const activeQuery = active ? `?active=${active}` : '';
+    return this.http.get(`${this.baseUrl}${activeQuery}`)
       .pipe(catchError(this.error));
-  }
-
-  public getActivePermissions() {
-    return this.http.get(this.baseUrl)
-      .pipe(map((res: any) => res.permissions.filter((item: Permission) => item.status === 'active')));
   }
 
   public getPermissionById(id: string): Observable<any> {

@@ -53,7 +53,7 @@ export class RoleEditComponent implements OnInit, OnDestroy {
         this.fillEditPermissionForm(response.role);
       }
     });
-    this.permissionService.getActivePermissions().pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
+    this.permissionService.getPermissions(true).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
       this.permissions = response;
     });
   }
