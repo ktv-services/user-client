@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getUsers();
-    this.rolesService.getActiveRoles().pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
+    this.rolesService.getRoles(true).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
       this.roles = response;
     });
     this.statuses = statuses;
