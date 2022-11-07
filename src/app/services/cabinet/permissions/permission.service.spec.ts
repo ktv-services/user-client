@@ -3,18 +3,18 @@ import { createSpyFromClass, Spy } from 'jasmine-auto-spies';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PermissionService } from './permission.service';
-import { Permission } from "../../../models/cabinet/users/permission";
-import {PermissionCreateDto} from "../../../models/cabinet/users/dtos/permission/permission-create-dto";
-
+import { Permission } from '../../../models/cabinet/users/permission';
+import { PermissionCreateDto } from '../../../models/cabinet/users/dtos/permission/permission-create-dto';
+import { StatusEnum } from '../../../models/common/status/enums/statuses.enum';
 
 describe('PermissionService', () => {
   let service: PermissionService;
   let httpSpy: Spy<HttpClient>;
 
   const faceId: string = '11233';
-  const permission1: Permission = {name: 'Permission 1', status: 'new'};
-  const permission2: Permission = {name: 'Permission 2', status: 'active'};
-  const permission3: Permission = {name: 'Permission 3', status: 'active'};
+  const permission1: Permission = {name: 'Permission 1', status: StatusEnum.NEW};
+  const permission2: Permission = {name: 'Permission 2', status: StatusEnum.ACTIVE};
+  const permission3: Permission = {name: 'Permission 3', status: StatusEnum.ACTIVE};
   const fakePermissionData: Permission[] = [permission1, permission2];
   const fakeActivePermissionData: Permission[] = [permission2, permission3];
 
@@ -44,7 +44,6 @@ describe('PermissionService', () => {
   it('should get active permissions', (done: DoneFn) => {
     httpSpy.get.and.nextWith(fakeActivePermissionData);
     service.getPermissions(true).subscribe(response => {
-      console.log(response);
       expect(response[0].name).toEqual(fakeActivePermissionData[0].name);
       done();
     });
@@ -75,7 +74,6 @@ describe('PermissionService', () => {
 
   it('should update permission', (done: DoneFn) => {
     const createPermissionDto: PermissionCreateDto = {name: 'Permission 11', status: 'new'};
-    permission1.name = 'Permission 11';
     httpSpy.put.and.nextWith(permission1);
     service.editPermission(faceId, createPermissionDto).subscribe(response => {
       expect(response.name).toEqual(permission1.name);
