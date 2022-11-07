@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -9,7 +9,7 @@ import { RedirectService } from '../redirect/redirect.service';
   providedIn: 'root'
 })
 
-export class NotificationService {
+export class NotificationService implements OnDestroy {
   public unsubscribe$ = new Subject();
   private timeDurationError = 3000;
   private timeDurationSuccess = 2000;
