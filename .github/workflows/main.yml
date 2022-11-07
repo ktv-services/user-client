@@ -1,9 +1,9 @@
 name: CI Angular app
 on:
   push:
-    branches: [ "main", "develop", "test" ]
+    branches: [ "**" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
 jobs:
   build:
     runs-on: ubuntu-latest
