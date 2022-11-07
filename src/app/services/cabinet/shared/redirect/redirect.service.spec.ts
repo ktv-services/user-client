@@ -29,12 +29,12 @@ describe('LoginService', () => {
   });
 
   it('should be properly redirect', () => {
-    /*const link = '/login';
+    const link = '/login';
     const time = 100;
 
     service.redirect(link, time);
-    //mockRouter.navigate(['/login']);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);*/
+    mockRouter.navigate(['/login']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
   });
 
 });

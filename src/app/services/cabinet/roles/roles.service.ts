@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { RoleCreateDto } from '../../../models/cabinet/users/dtos/role/role-create-dto';
-import { Role } from '../../../models/cabinet/users/role';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +15,10 @@ export class RolesService {
     this.baseUrl = 'http://localhost:3000/roles/';
   }
 
-  public getRoles(): Observable<any> {
-    return this.http.get(this.baseUrl)
+  public getRoles(active = false): Observable<any> {
+    const activeQuery = active ? `?active=${active}` : '';
+    return this.http.get(`${this.baseUrl}${activeQuery}`)
       .pipe(catchError(this.error));
-  }
-
-  public getActiveRoles() {
-    return this.http.get(this.baseUrl)
-      .pipe(map((res: any) => res.roles.filter((item: Role) => item.status === 'active')));
   }
 
   public getRoleById(id: string): Observable<any> {
