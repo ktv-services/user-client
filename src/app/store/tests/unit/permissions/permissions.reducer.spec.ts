@@ -1,23 +1,23 @@
-import { reducer } from '../permissions.reducer';
+import { reducer } from '../../../permissions/permissions.reducer';
 import {
   createPermissionSuccess,
   deletePermissionSuccess, editPermissionSuccess,
   getPermissions,
   getPermissionsSuccess
-} from '../permissions.actions';
-import { initialState, PermissionsState } from '../permissions.state';
-import { StatusEnum } from '../../../models/common/status/enums/statuses.enum';
-import { Permission } from '../../../models/cabinet/users/permission';
-import { PermissionCreateDto } from '../../../models/cabinet/users/dtos/permission/permission-create-dto';
-import { PermissionDetailDto } from '../../../models/cabinet/users/dtos/permission/permission-detail-dto';
+} from '../../../permissions/permissions.actions';
+import { initialState, PermissionsState } from '../../../permissions/permissions.state';
+import { StatusEnum } from '../../../../models/common/status/enums/statuses.enum';
+import { Permission } from '../../../../models/cabinet/users/permission';
+import { PermissionCreateDto } from '../../../../models/cabinet/users/dtos/permission/permission-create-dto';
+import { PermissionDetailDto } from '../../../../models/cabinet/users/dtos/permission/permission-detail-dto';
+import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
+import { getPermissionFirst, getPermissionNew, getPermissionSecond } from '../../data/permissions.data';
 
 describe('PermissionReducer', () => {
   let state: PermissionsState;
-  const permission1: Permission = {_id: '11111', name: 'Permission 1', status: StatusEnum.ACTIVE};
-  const permission2: Permission = {_id: '22222', name: 'Permission 2', status: StatusEnum.NEW};
+  const permission1: Permission = getPermissionFirst();
+  const permission2: Permission = getPermissionSecond();
   const permissionId = '22222';
-  const apiMessage = 'ok';
-  const typeMessage = 'success';
 
   beforeEach(() => {
     state = initialState;
@@ -27,22 +27,22 @@ describe('PermissionReducer', () => {
     it('getPermissions should return permissions', () => {
       state = {
         permissions: [],
-        apiMessage: 'ok',
-        typeMessage: 'success'
+        apiMessage: StoreApiStatus.OK,
+        typeMessage: StoreApiStatus.SUCCESS,
       }
       const action = getPermissions();
       const result = reducer(state, action);
 
       expect(result.apiMessage).toBe('ok');
-      expect(result.typeMessage).toBe('success');
+      expect(result.typeMessage).toBe(StoreApiStatus.SUCCESS);
     });
 
     it('getPermissionsSuccess should return permissions', () => {
       const permissions = [permission1, permission2];
       state = {
         permissions: permissions,
-        apiMessage: 'ok',
-        typeMessage: 'success'
+        apiMessage: StoreApiStatus.OK,
+        typeMessage: StoreApiStatus.SUCCESS,
       }
       const action = getPermissionsSuccess({permissions: permissions});
       const result = reducer(state, action);
@@ -50,7 +50,7 @@ describe('PermissionReducer', () => {
       expect(result.permissions.length).toBe(2);
       expect(result.permissions[0].name).toBe('Permission 1');
       expect(result.permissions[1].status).toBe(StatusEnum.NEW);
-      expect(result.apiMessage).toBe('ok');
+      expect(result.apiMessage).toBe(StoreApiStatus.OK,);
       expect(result.typeMessage).toBe('success');
     });
 
@@ -59,50 +59,50 @@ describe('PermissionReducer', () => {
       const permissions = [permission1, permission];
       state = {
         permissions: permissions,
-        apiMessage: apiMessage,
-        typeMessage: typeMessage
+        apiMessage: StoreApiStatus.OK,
+        typeMessage: StoreApiStatus.SUCCESS,
       }
-      const action = createPermissionSuccess({permission: permission, apiMessage: apiMessage, typeMessage: typeMessage});
+      const action = createPermissionSuccess({permission: permission, apiMessage: StoreApiStatus.OK, typeMessage: StoreApiStatus.SUCCESS});
       const result = reducer(state, action);
 
       expect(result.permissions.length).toBe(3);
       expect(result.permissions[1].name).toBe('Permission new');
       expect(result.permissions[1].status).toBe(StatusEnum.ACTIVE);
-      expect(result.apiMessage).toBe('ok');
+      expect(result.apiMessage).toBe(StoreApiStatus.OK,);
       expect(result.typeMessage).toBe('success');
     });
 
     it('editPermissionSuccess should edit permission', () => {
-      const permission: PermissionDetailDto = {_id: permissionId, name: 'Permission new', status: StatusEnum.ACTIVE};
+      const permission: PermissionDetailDto = getPermissionNew();
       const permissions = [permission1, permission2];
       state = {
         permissions: permissions,
-        apiMessage: apiMessage,
-        typeMessage: typeMessage
+        apiMessage: StoreApiStatus.OK,
+        typeMessage: StoreApiStatus.SUCCESS,
       }
-      const action = editPermissionSuccess({permissionId: permissionId, permission: permission, apiMessage: apiMessage, typeMessage: typeMessage});
+      const action = editPermissionSuccess({permissionId: permissionId, permission: permission, apiMessage: StoreApiStatus.OK, typeMessage: StoreApiStatus.SUCCESS});
       const result = reducer(state, action);
 
       expect(result.permissions.length).toBe(2);
       expect(result.permissions[1].name).toBe('Permission new');
       expect(result.permissions[1].status).toBe(StatusEnum.ACTIVE);
-      expect(result.apiMessage).toBe(apiMessage);
-      expect(result.typeMessage).toBe(typeMessage);
+      expect(result.apiMessage).toBe(StoreApiStatus.OK);
+      expect(result.typeMessage).toBe(StoreApiStatus.SUCCESS);
     });
 
     it('deletePermission should delete permission', () => {
       const permissions = [permission1, permission2];
       state = {
         permissions: permissions,
-        apiMessage: apiMessage,
-        typeMessage: typeMessage
+        apiMessage: StoreApiStatus.OK,
+        typeMessage: StoreApiStatus.SUCCESS,
       }
-      const action = deletePermissionSuccess({permissionId: permissionId, apiMessage: apiMessage, typeMessage: typeMessage});
+      const action = deletePermissionSuccess({permissionId: permissionId, apiMessage: StoreApiStatus.OK, typeMessage: StoreApiStatus.SUCCESS});
       const result = reducer(state, action);
 
       expect(result.permissions.length).toBe(1);
-      expect(result.apiMessage).toBe(apiMessage);
-      expect(result.typeMessage).toBe(typeMessage);
+      expect(result.apiMessage).toBe(StoreApiStatus.OK);
+      expect(result.typeMessage).toBe(StoreApiStatus.SUCCESS);
     });
   });
 });
