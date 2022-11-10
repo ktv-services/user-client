@@ -81,5 +81,5 @@ export const deletePermissionSuccess = createAction(
 
 export const deletePermissionFailed = createAction(
   PermissionActionTypes.REMOVE_PERMISSIONS_FAILURE,
-  props<{ error: any }>()
+  props<{ permissionId: string, error: any }>()
 );

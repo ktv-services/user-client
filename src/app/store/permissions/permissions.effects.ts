@@ -5,6 +5,7 @@ import * as PermissionsActions from './permissions.actions';
 import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { PermissionService } from '../../services/cabinet/permissions/permission.service';
+import { Permission } from '../../models/cabinet/users/permission';
 
 @Injectable()
 export class PermissionsEffects {
@@ -15,7 +16,7 @@ export class PermissionsEffects {
       ofType(PermissionsActions.PermissionActionTypes.GET_PERMISSIONS),
       switchMap(() =>
         this.permissionService.getPermissions().pipe(
-          map((permissions) => PermissionsActions.getPermissionsSuccess(permissions)),
+          map((permissions: Permission[]) => PermissionsActions.getPermissionsSuccess({permissions})),
           catchError((error) => of(PermissionsActions.getPermissionsFailed({ error: error })))
         )
       )
@@ -31,7 +32,8 @@ export class PermissionsEffects {
             if (response.error) {
               return PermissionsActions.createPermissionFailed({apiMessage: response.error, typeMessage: 'error' });
             } else {
-              return PermissionsActions.createPermissionSuccess({permission: response.permission,
+              return PermissionsActions.createPermissionSuccess({
+                permission: response.permission,
                 apiMessage:  response.status === 'ok' ? action.apiMessage : 'Server Error',
                 typeMessage: response.status === 'ok' ? 'success' : 'error'
               });
@@ -51,7 +53,7 @@ export class PermissionsEffects {
             if (response.error) {
               return PermissionsActions.editPermissionFailed({ apiMessage: response.error, typeMessage: 'error' });
             } else {
-              return PermissionsActions.editPermissionSuccess({permissionId: action.id, permission: response.permission,
+              return PermissionsActions.editPermissionSuccess({permissionId: response.id, permission: response.permission,
                 apiMessage:  response.status === 'ok' ? action.apiMessage : 'Server Error',
                 typeMessage: response.status === 'ok' ? 'success' : 'error'
               });
@@ -67,11 +69,12 @@ export class PermissionsEffects {
       ofType(PermissionsActions.PermissionActionTypes.REMOVE_PERMISSIONS),
       switchMap((action) =>
         this.permissionService.removePermission(action.permissionId).pipe(
-          map((response) => PermissionsActions.deletePermissionSuccess({ permissionId: action.permissionId,
+          map((response) => PermissionsActions.deletePermissionSuccess({
+            permissionId: action.permissionId,
             apiMessage:  response.status === 'ok' ? action.apiMessage : 'Server Error',
             typeMessage: response.status === 'ok' ? 'success' : 'error'
           })),
-          catchError((error) => of(PermissionsActions.deletePermissionFailed({ error: error })))
+          catchError((error) => of(PermissionsActions.deletePermissionFailed({ permissionId: action.permissionId, error: error })))
         )
       )
     )
