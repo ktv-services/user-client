@@ -3,6 +3,7 @@ import { StatusEnum } from '../../../models/common/status/enums/statuses.enum';
 import { Role } from '../../../models/cabinet/users/role';
 import { User } from '../../../models/cabinet/users/user';
 import { UserDetailDto } from '../../../models/cabinet/users/dtos/user/user-detail-dto';
+import { UserCreateDto } from '../../../models/cabinet/users/dtos/user/user-create-dto';
 
 const permission: Permission = {name: 'Permission 1', status: StatusEnum.ACTIVE};
 const role: Role = {name: 'Role 1', status: StatusEnum.ACTIVE, permissions: [permission]};
@@ -17,4 +18,8 @@ export function getUserSecond(): User {
 
 export function getUserNew(): UserDetailDto {
   return {_id: '22222', email: 'newuser@gmail.com', status: StatusEnum.ACTIVE, role: role, socials: [], permission: []};
+}
+
+export function getUserNewCreate(): UserCreateDto {
+  return {email: 'newuser@gmail.com', password: '123', status: StatusEnum.ACTIVE, role: role};
 }

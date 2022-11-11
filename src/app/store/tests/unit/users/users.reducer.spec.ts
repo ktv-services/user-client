@@ -4,7 +4,7 @@ import { initialState, UsersState } from '../../../users/users.state';
 import {
   changePasswordUserSuccess,
   createUserSuccess,
-  deleteUserSuccess,
+  removeUserSuccess,
   editUserSuccess,
   getUsers,
   getUsersSuccess, unbindSocialUser
@@ -83,7 +83,7 @@ describe('UserReducer', () => {
         apiMessage: StoreApiStatus.OK,
         typeMessage: StoreApiStatus.SUCCESS
       }
-      const action = editUserSuccess({id: userId, user: user, apiMessage: StoreApiStatus.OK, typeMessage: StoreApiStatus.SUCCESS});
+      const action = editUserSuccess({userId: userId, user: user, apiMessage: StoreApiStatus.OK, typeMessage: StoreApiStatus.SUCCESS});
       const result = reducer(state, action);
 
       expect(result.users.length).toBe(2);
@@ -101,7 +101,7 @@ describe('UserReducer', () => {
         apiMessage: StoreApiStatus.OK,
         typeMessage: StoreApiStatus.SUCCESS
       }
-      const action = changePasswordUserSuccess({id: userId, user: user, apiMessage: StoreApiStatus.OK, typeMessage: StoreApiStatus.SUCCESS});
+      const action = changePasswordUserSuccess({userId: userId, user: user, apiMessage: StoreApiStatus.OK, typeMessage: StoreApiStatus.SUCCESS});
       const result = reducer(state, action);
 
       expect(result.users.length).toBe(2);
@@ -118,7 +118,7 @@ describe('UserReducer', () => {
         apiMessage: StoreApiStatus.OK,
         typeMessage: StoreApiStatus.SUCCESS
       }
-      const action = unbindSocialUser({id: userId, socialId: 'socialId', apiMessage: [StoreApiStatus.OK]});
+      const action = unbindSocialUser({userId: userId, socialId: 'socialId', apiMessage: StoreApiStatus.OK});
       const result = reducer(state, action);
 
       expect(result.users.length).toBe(2);
@@ -126,14 +126,14 @@ describe('UserReducer', () => {
       expect(result.typeMessage).toBe(StoreApiStatus.SUCCESS);
     });
 
-    it('deleteUser should delete user', () => {
+    it('removeUser should delete user', () => {
       const users = [user1, user2];
       state = {
         users: users,
         apiMessage: StoreApiStatus.OK,
         typeMessage: StoreApiStatus.SUCCESS
       }
-      const action = deleteUserSuccess({userId: userId, apiMessage: StoreApiStatus.OK, typeMessage: StoreApiStatus.SUCCESS});
+      const action = removeUserSuccess({userId: userId, apiMessage: StoreApiStatus.OK, typeMessage: StoreApiStatus.SUCCESS});
       const result = reducer(state, action);
 
       expect(result.users.length).toBe(1);

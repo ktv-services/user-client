@@ -72,7 +72,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
     };
 
     this.translateService.get('editedUserSuccess').pipe(takeUntil(this.unsubscribe$)).subscribe((text) => {
-      this.store.dispatch(editUser({ id: this.id, user: user, apiMessage: text }));
+      this.store.dispatch(editUser({ userId: this.id, user: user, apiMessage: text }));
     });
     this.actions$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
       if (this.notificationService.isInitialized(action.apiMessage)) {

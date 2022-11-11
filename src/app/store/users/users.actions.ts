@@ -63,12 +63,12 @@ export const createUserFailed = createAction(
 // Edit
 export const editUser = createAction(
   UsersActionTypes.EDIT_USER,
-  props<{ id: string, user: UserEditDto, apiMessage: string }>()
+  props<{ userId: string, user: UserEditDto, apiMessage: string }>()
 );
 
 export const editUserSuccess = createAction(
   UsersActionTypes.EDIT_USER_SUCCESS,
-  props<{ id: string, user: UserEditDto, apiMessage: string, typeMessage: string }>()
+  props<{ userId: string, user: UserEditDto, apiMessage: string, typeMessage: string }>()
 );
 
 export const editUserFailed = createAction(
@@ -79,12 +79,12 @@ export const editUserFailed = createAction(
 // Change Password
 export const changePasswordUser = createAction(
   UsersActionTypes.CHANGE_PASSWORD_USER,
-  props<{ id: string, password: UserChangePasswordDto, apiMessage: string }>()
+  props<{ userId: string, password: UserChangePasswordDto, apiMessage: string }>()
 );
 
 export const changePasswordUserSuccess = createAction(
   UsersActionTypes.CHANGE_PASSWORD_USER_SUCCESS,
-  props<{ id: string, user: User, apiMessage: string, typeMessage: string }>()
+  props<{ userId: string, user: User, apiMessage: string, typeMessage: string }>()
 );
 
 export const changePasswordUserFailed = createAction(
@@ -95,7 +95,7 @@ export const changePasswordUserFailed = createAction(
 // Unbind Social
 export const unbindSocialUser = createAction(
   UsersActionTypes.UNBIND_SOCIAL_USER,
-  props<{ id: string, socialId: string, apiMessage: Array<string> }>()
+  props<{ userId: string, socialId: string, apiMessage: string }>()
 );
 
 export const unbindSocialUserSuccess = createAction(
@@ -109,17 +109,17 @@ export const unbindSocialUserFailed = createAction(
 );
 
 // Delete
-export const deleteUser = createAction(
+export const removeUser = createAction(
   UsersActionTypes.REMOVE_USER,
   props<{ userId: string, apiMessage: string }>()
 );
 
-export const deleteUserSuccess = createAction(
+export const removeUserSuccess = createAction(
   UsersActionTypes.REMOVE_USER_SUCCESS,
   props<{ userId: string, apiMessage: string, typeMessage: string }>()
 );
 
-export const deleteUserFailed = createAction(
+export const removeUserFailed = createAction(
   UsersActionTypes.REMOVE_USER_FAILURE,
   props<{ error: any }>()
 );

@@ -5,6 +5,7 @@ import * as UsersActions from './users.actions';
 import { UserService } from '../../services/cabinet/users/user.servise';
 import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
+import { User } from '../../models/cabinet/users/user';
 
 @Injectable()
 export class UsersEffects {
@@ -18,14 +19,14 @@ export class UsersEffects {
       ofType(UsersActions.UsersActionTypes.GET_USERS),
       switchMap(() =>
         this.userService.getUsers().pipe(
-          map((users) => UsersActions.getUsersSuccess(users)),
+          map((users: User[]) => UsersActions.getUsersSuccess({users})),
           catchError((error) => of(UsersActions.getUsersFailed({ error: error })))
         )
       )
     )
   );
 
-  addUser$ = createEffect(() =>
+  createUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UsersActions.UsersActionTypes.CREATE_USER),
       switchMap((action) =>
@@ -54,7 +55,7 @@ export class UsersEffects {
             if (response.error) {
               return UsersActions.editUserFailed({ apiMessage: response.error, typeMessage: 'error' });
             } else {
-              return UsersActions.editUserSuccess({id: action.id, user: response.user,
+              return UsersActions.editUserSuccess({userId: response.id, user: response.user,
                 apiMessage:  response.status === 'ok' ? action.apiMessage : 'Server Error',
                 typeMessage: response.status === 'ok' ? 'success' : 'error'
               });
@@ -74,7 +75,7 @@ export class UsersEffects {
             if (response.error) {
               return UsersActions.changePasswordUserFailed({ apiMessage: response.error, typeMessage: 'error' });
             } else {
-              return UsersActions.changePasswordUserSuccess({ id: action.id, user: response.user,
+              return UsersActions.changePasswordUserSuccess({ userId: response.id, user: response.user,
                 apiMessage:  response.status === 'ok' ? action.apiMessage : 'Server Error',
                 typeMessage: response.status === 'ok' ? 'success' : 'error'
               });
@@ -94,10 +95,8 @@ export class UsersEffects {
             if (response.error) {
               return UsersActions.unbindSocialUserFailed({ apiMessage: response.error, typeMessage: 'error' });
             } else {
-              console.log(action.apiMessage)
               return UsersActions.unbindSocialUserSuccess({
-                apiMessage:  response.status === 'ok' ? action.apiMessage.unbindUserSocialSuccess :
-                  response.status === 'removed' ? action.apiMessage.removedUserSuccess : 'Server Error',
+                apiMessage:  response.status === 'ok' ? action.apiMessage : 'Server Error',
                 typeMessage: response.status === 'ok' ? 'success' : 'error'
               });
             }
@@ -112,11 +111,11 @@ export class UsersEffects {
       ofType(UsersActions.UsersActionTypes.REMOVE_USER),
       switchMap((action) =>
         this.userService.removeUser(action.userId).pipe(
-          map((response) => UsersActions.deleteUserSuccess({ userId: action.userId,
+          map((response) => UsersActions.removeUserSuccess({ userId: action.userId,
             apiMessage:  response.status === 'ok' ? action.apiMessage : 'Server Error',
             typeMessage: response.status === 'ok' ? 'success' : 'error'
           })),
-          catchError((error) => of(UsersActions.deleteUserFailed({ error: error })))
+          catchError((error) => of(UsersActions.removeUserFailed({ error: error })))
         )
       )
     )
