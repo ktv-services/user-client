@@ -50,9 +50,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   private getUsers(): void {
-    this.store.select(selectUserItems).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
-      this.users = response.users;
-      this.setPaginationSource(response.users);
+    this.store.select(selectUserItems).pipe(takeUntil(this.unsubscribe$)).subscribe((response: {users: User[]}) => {
+      if (response) {
+        this.users = response.users;
+        this.setPaginationSource(response.users);
+      }
     });
   }
 

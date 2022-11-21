@@ -22,8 +22,8 @@ describe('UserSelectors', () => {
         typeMessage: StoreApiStatus.SUCCESS,
       }
       const results: any = UsersSelector.selectUserItems.projector(state);
-      expect(results.users[0].email).toBe('user1@gmail.com');
-      expect(results.users[1].email).toBe('user2@gmail.com');
+      expect(results[0].email).toBe('user1@gmail.com');
+      expect(results[1].email).toBe('user2@gmail.com');
     });
 
     it('selectUserItem should return user', () => {

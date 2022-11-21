@@ -68,10 +68,8 @@ const usersReducer = createReducer(
   })
 );
 
-export const getUsersReducer = (state: UsersState) => {
-  return {
-    users: state.users,
-  };
+export const getUsersReducer = (state: UsersState): any => {
+  return state.users;
 };
 
 export const getApiMessageReducer = (state: UsersState) => {

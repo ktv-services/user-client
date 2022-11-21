@@ -21,9 +21,9 @@ describe('PermissionSelectors', () => {
         apiMessage: StoreApiStatus.OK,
         typeMessage: StoreApiStatus.SUCCESS,
       }
-      const results: any = PermissionSelector.selectPermissionItems.projector(state);
-      expect(results.permissions[0].name).toBe('Permission 1');
-      expect(results.permissions[1].name).toBe('Permission 2');
+      const results: Permission[] = PermissionSelector.selectPermissionItems.projector(state);
+      expect(results[0].name).toBe('Permission 1');
+      expect(results[1].name).toBe('Permission 2');
     });
 
     it('selectPermissionItem should return permission', () => {

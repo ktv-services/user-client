@@ -11,7 +11,7 @@ export const selectUserItems = createSelector(
 );
 
 export const selectUserItem = (props: { id: string }) =>
-  createSelector(selectUserItems, (users) =>
+  createSelector(selectUserItems, (users: {users: User[]}) =>
     users.users.find((user: User) => user._id === props.id)
   );
 

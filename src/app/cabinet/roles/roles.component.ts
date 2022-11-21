@@ -42,9 +42,11 @@ export class RolesComponent implements OnInit, OnDestroy {
   }
 
   private getRoles(): void {
-    this.store.select(selectRolesItems).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
-      this.roles = response.roles;
-      this.setPaginationSource(response.roles);
+    this.store.select(selectRolesItems).pipe(takeUntil(this.unsubscribe$)).subscribe((response: {roles: Role[]}) => {
+      if (response) {
+        this.roles = response.roles;
+        this.setPaginationSource(response.roles);
+      }
     });
   }
 

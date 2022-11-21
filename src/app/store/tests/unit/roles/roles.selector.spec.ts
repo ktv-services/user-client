@@ -22,8 +22,8 @@ describe('RoleSelectors', () => {
         typeMessage: StoreApiStatus.SUCCESS
       }
       const results: any = RolesSelector.selectRolesItems.projector(state);
-      expect(results.roles[0].name).toBe('Role 1');
-      expect(results.roles[1].name).toBe('Role 2');
+      expect(results[0].name).toBe('Role 1');
+      expect(results[1].name).toBe('Role 2');
     });
 
     it('selectRoleItem should return permission', () => {

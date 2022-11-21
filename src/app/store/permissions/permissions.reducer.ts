@@ -8,7 +8,7 @@ const permissionsReducer = createReducer(
   on(PermissionActions.getPermissions, (state) => ({...state})),
   on(PermissionActions.getPermissionsSuccess, (state, { permissions }) => ({
     ...state,
-    permissions: permissions,
+    permissions,
   })),
   on(PermissionActions.createPermissionSuccess, (state, { permission, apiMessage }) => {
     const updatedPermissions = [...state.permissions];
@@ -46,10 +46,8 @@ const permissionsReducer = createReducer(
   })
 );
 
-export const getPermissionsReducer = (state: PermissionsState) => {
-  return {
-    permissions: state.permissions,
-  };
+export const getPermissionsReducer = (state: PermissionsState): any => {
+  return state.permissions;
 };
 
 export const getApiMessageReducer = (state: PermissionsState) => {
