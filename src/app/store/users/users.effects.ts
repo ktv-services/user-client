@@ -6,6 +6,8 @@ import { UserService } from '../../services/cabinet/users/user.servise';
 import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { User } from '../../models/cabinet/users/user';
+import {Role} from "../../models/cabinet/users/role";
+import * as RolesActions from "../roles/roles.actions";
 
 @Injectable()
 export class UsersEffects {
@@ -19,7 +21,9 @@ export class UsersEffects {
       ofType(UsersActions.UsersActionTypes.GET_USERS),
       switchMap(() =>
         this.userService.getUsers().pipe(
-          map((users: User[]) => UsersActions.getUsersSuccess({users})),
+          map((data: {users: User[]}) => {
+            return UsersActions.getUsersSuccess({users: data.users})
+          }),
           catchError((error) => of(UsersActions.getUsersFailed({ error: error })))
         )
       )
@@ -50,7 +54,7 @@ export class UsersEffects {
     this.actions$.pipe(
       ofType(UsersActions.UsersActionTypes.EDIT_USER),
       switchMap((action) =>
-        this.userService.editUser(action.id, action.user).pipe(
+        this.userService.editUser(action.userId, action.user).pipe(
           map((response) => {
             if (response.error) {
               return UsersActions.editUserFailed({ apiMessage: response.error, typeMessage: 'error' });
@@ -70,7 +74,7 @@ export class UsersEffects {
     this.actions$.pipe(
       ofType(UsersActions.UsersActionTypes.CHANGE_PASSWORD_USER),
       switchMap((action) =>
-        this.userService.changePasswordUser(action.id, action.password).pipe(
+        this.userService.changePasswordUser(action.userId, action.password).pipe(
           map((response) => {
             if (response.error) {
               return UsersActions.changePasswordUserFailed({ apiMessage: response.error, typeMessage: 'error' });
@@ -90,7 +94,7 @@ export class UsersEffects {
     this.actions$.pipe(
       ofType(UsersActions.UsersActionTypes.UNBIND_SOCIAL_USER),
       switchMap((action) =>
-        this.userService.unbindSocial(action.id, action.socialId).pipe(
+        this.userService.unbindSocial(action.userId, action.socialId).pipe(
           map((response) => {
             if (response.error) {
               return UsersActions.unbindSocialUserFailed({ apiMessage: response.error, typeMessage: 'error' });

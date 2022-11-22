@@ -32,7 +32,7 @@ describe('UserSelectors', () => {
         apiMessage: StoreApiStatus.OK,
         typeMessage: StoreApiStatus.SUCCESS,
       }
-      const results: any = UsersSelector.selectUserItem({id: userId}).projector(state);
+      const results: any = UsersSelector.selectUserItem({id: userId}).projector(state.users);
       expect(results.email).toBe('user2@gmail.com');
     });
 

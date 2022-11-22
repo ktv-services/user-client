@@ -29,7 +29,7 @@ describe('UsersEffects', () => {
   const userId = '22222';
   const socialId = '33333';
   let mockUserService = jasmine.createSpyObj('Service', {
-    'getUsers': of(users),
+    'getUsers': of({users: users}),
     'createUser': of({status: StoreApiStatus.OK, user: userNew}),
     'editUser': of({status: StoreApiStatus.OK, user: user2, id: userId}),
     'changePasswordUser': of({status: StoreApiStatus.OK, user: user2, id: userId}),

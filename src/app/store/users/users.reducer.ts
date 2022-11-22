@@ -2,17 +2,16 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { initialState, UsersState } from './users.state';
 import * as UserActions from './users.actions';
 import { User } from '../../models/cabinet/users/user';
-import {removeUser} from "./users.actions";
 
 
 const usersReducer = createReducer(
   initialState,
-  on(UserActions.getUsers, (state) => ({...state})),
-  on(UserActions.getUsersSuccess, (state, { users }) => ({
+  on(UserActions.getUsers, (state: UsersState) => ({...state})),
+  on(UserActions.getUsersSuccess, (state: UsersState, { users }) => ({
     ...state,
     users: users,
   })),
-  on(UserActions.createUserSuccess, (state, { user, apiMessage }) => {
+  on(UserActions.createUserSuccess, (state: UsersState, { user, apiMessage }) => {
     const updatedUsers = [...state.users];
     updatedUsers.push(user as User);
     return {
@@ -21,7 +20,7 @@ const usersReducer = createReducer(
       apiMessage: apiMessage
     };
   }),
-  on(UserActions.editUserSuccess, (state, { userId, user, apiMessage }) => {
+  on(UserActions.editUserSuccess, (state: UsersState, { userId, user, apiMessage }) => {
     const userItemIndex = state.users.findIndex(
       (item) => item._id === userId
     );
@@ -34,7 +33,7 @@ const usersReducer = createReducer(
       apiMessage: apiMessage
     };
   }),
-  on(UserActions.changePasswordUserSuccess, (state, { userId, user, apiMessage }) => {
+  on(UserActions.changePasswordUserSuccess, (state: UsersState, { userId, user, apiMessage }) => {
     const userItemIndex = state.users.findIndex(
       (item) => item._id === userId
     );
@@ -47,14 +46,14 @@ const usersReducer = createReducer(
       apiMessage: apiMessage
     };
   }),
-  on(UserActions.unbindSocialUserSuccess, (state, { apiMessage }) => {
+  on(UserActions.unbindSocialUserSuccess, (state: UsersState, { apiMessage }) => {
     return {
       ...state,
       users: state.users,
       apiMessage: apiMessage
     };
   }),
-  on(UserActions.removeUserSuccess, (state, { userId, apiMessage }) => {
+  on(UserActions.removeUserSuccess, (state: UsersState, { userId, apiMessage }) => {
     const userItemIndex = state.users.findIndex(
       (item) => item._id === userId
     );

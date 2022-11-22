@@ -11,8 +11,8 @@ export const selectRolesItems = createSelector(
 );
 
 export const selectRoleItem = (props: { id: string }) =>
-  createSelector(selectRolesItems, (roles: {roles: Role[]}) =>
-    roles.roles.find((role: Role) => role._id === props.id)
+  createSelector(selectRolesItems, (roles: Role[]) =>
+    roles.find((role: Role) => role._id === props.id)
   );
 
 export const selectApiMessageItem = createSelector(

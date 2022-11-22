@@ -32,7 +32,7 @@ describe('RoleSelectors', () => {
         apiMessage: StoreApiStatus.OK,
         typeMessage: StoreApiStatus.SUCCESS
       }
-      const results: any = RolesSelector.selectRoleItem({id: roleId}).projector(state);
+      const results: any = RolesSelector.selectRoleItem({id: roleId}).projector(state.roles);
       expect(results.name).toBe('Role 2');
     });
 

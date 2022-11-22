@@ -25,12 +25,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.store.select(selectUserItems).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
-      if (response.users && response.users.length) {
-        this.users = response.users;
-        this.userCount = response.users.length;
-        this.store.select(selectRolesItems).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
-          this.roles = response.roles;
+    this.store.select(selectUserItems).pipe(takeUntil(this.unsubscribe$)).subscribe((users: User[]) => {
+      if (users && users.length) {
+        this.users = users;
+        this.userCount = users.length;
+        this.store.select(selectRolesItems).pipe(takeUntil(this.unsubscribe$)).subscribe((roles: Role[]) => {
+          this.roles = roles;
           this.setRolesCount();
         });
       }

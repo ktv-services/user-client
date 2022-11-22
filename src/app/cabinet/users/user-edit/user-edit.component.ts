@@ -16,6 +16,7 @@ import { Role } from '../../../models/cabinet/users/role';
 import { NotificationService } from '../../../services/cabinet/shared/notification/notification.service';
 import { Actions } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
+import {selectRolesItems} from "../../../store/roles";
 
 
 @Component({
@@ -49,8 +50,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.rolesService.getRoles(true).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
-      this.roles = response;
+    this.store.select(selectRolesItems).pipe(takeUntil(this.unsubscribe$)).subscribe((roles: Role[]) => {
+      if (roles && roles.length) {
+        this.roles = roles;
+      }
     });
     this.statuses = statuses;
     this.id = this.route.snapshot.params['id'];

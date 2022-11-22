@@ -16,7 +16,9 @@ export class RolesEffects {
       ofType(RolesActions.RoleActionTypes.GET_ROLES),
       switchMap(() =>
         this.rolesService.getRoles().pipe(
-          map((roles: Role[]) => RolesActions.getRolesSuccess({roles})),
+          map((data: {roles: Role[]}) => {
+            return RolesActions.getRolesSuccess({roles: data.roles})
+          }),
           catchError((error) => of(RolesActions.getRolesFailed({ error: error })))
         )
       )

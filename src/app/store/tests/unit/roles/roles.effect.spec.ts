@@ -24,7 +24,7 @@ describe('PermissionsEffects', () => {
   const roles = [role1, role2];
   const roleId = '22222';
   let mockRoleService = jasmine.createSpyObj('Service', {
-    'getRoles': of(roles),
+    'getRoles': of({roles: roles}),
     'createRole': of({status: StoreApiStatus.OK, role: role1}),
     'editRole': of({status: StoreApiStatus.OK, role: role2, id: roleId}),
     'removeRole': of({status: StoreApiStatus.OK, id: roleId}),
