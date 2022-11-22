@@ -45,8 +45,8 @@ describe('AppComponent', () => {
 
   it('should render title in a h1 tag', () => {
     const fixture = TestBed.createComponent(LoginComponent);
-    fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
+    fixture.detectChanges();
     expect(compiled.querySelector('.name').textContent).toContain('User CRM');
   });
 

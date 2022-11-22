@@ -47,10 +47,8 @@ const rolesReducer = createReducer(
   })
 );
 
-export const getRolesReducer = (state: RolesState) => {
-  return {
-    roles: state.roles,
-  };
+export const getRolesReducer = (state: RolesState): any => {
+  return state.roles;
 };
 
 export const getApiMessageReducer = (state: RolesState) => {

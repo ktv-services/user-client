@@ -81,5 +81,5 @@ export const removeRoleSuccess = createAction(
 
 export const removeRoleFailed = createAction(
   RoleActionTypes.REMOVE_ROLES_FAILURE,
-  props<{ error: any }>()
+  props<{ roleId: string, error: any }>()
 );

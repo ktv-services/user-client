@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../services/cabinet/users/user.servise';
 import { User} from '../../models/cabinet/users/user';
 import { FormControl, FormGroup } from '@angular/forms';
-import { RolesListDto } from '../../models/cabinet/users/dtos/roles-list-dto';
 import { Status } from '../../models/common/status/status';
 import { statuses } from '../../models/common/status/lists/statuses-list';
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,6 +13,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../store/core.state';
 import { selectUserItems } from '../../store/users';
+import { selectRolesItems } from '../../store/roles';
+import { Role } from '../../models/cabinet/users/role';
 
 @Component({
   selector: 'app-users',
@@ -22,7 +23,7 @@ import { selectUserItems } from '../../store/users';
 })
 export class UsersComponent implements OnInit, OnDestroy {
   public users: Array<User> = [];
-  public roles: Array<RolesListDto>;
+  public roles: Array<Role>;
   public statuses: Array<Status>;
   public usersFilterForm = new FormGroup({
     email: new FormControl(null),
@@ -42,17 +43,21 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getUsers();
-    this.rolesService.getRoles(true).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
-      this.roles = response;
+    this.store.select(selectRolesItems).pipe(takeUntil(this.unsubscribe$)).subscribe((roles: Role[]) => {
+      if (roles && roles.length) {
+        this.roles = roles;
+      }
     });
     this.statuses = statuses;
     this.filterForm();
   }
 
   private getUsers(): void {
-    this.store.select(selectUserItems).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
-      this.users = response.users;
-      this.setPaginationSource(response.users);
+    this.store.select(selectUserItems).pipe(takeUntil(this.unsubscribe$)).subscribe((users: User[]) => {
+      if (users && users.length) {
+        this.users = users;
+        this.setPaginationSource(users);
+      }
     });
   }
 
