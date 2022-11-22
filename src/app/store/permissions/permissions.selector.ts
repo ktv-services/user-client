@@ -11,8 +11,8 @@ export const selectPermissionItems = createSelector(
 );
 
 export const selectPermissionItem = (props: { id: string }) =>
-  createSelector(selectPermissionItems, (permissions: {permissions: Permission[]}) => {
-      return permissions.permissions.find((permission: Permission) => permission._id === props.id);
+  createSelector(selectPermissionItems, (permissions: Permission[]) => {
+      return permissions.find((permission: Permission) => permission._id === props.id);
     }
   );
 

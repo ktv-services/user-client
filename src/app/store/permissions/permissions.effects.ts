@@ -16,7 +16,9 @@ export class PermissionsEffects {
       ofType(PermissionsActions.PermissionActionTypes.GET_PERMISSIONS),
       switchMap(() =>
         this.permissionService.getPermissions().pipe(
-          map((permissions: Permission[]) => PermissionsActions.getPermissionsSuccess({permissions})),
+          map((data: {permissions: Permission[]}) => {
+            return PermissionsActions.getPermissionsSuccess({permissions: data.permissions})
+          }),
           catchError((error) => of(PermissionsActions.getPermissionsFailed({ error: error })))
         )
       )

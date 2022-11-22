@@ -42,10 +42,10 @@ export class PermissionsComponent implements OnInit, OnDestroy {
   }
 
   private getPermissions(): void {
-    this.store.select(selectPermissionItems).pipe(takeUntil(this.unsubscribe$)).subscribe((response: {permissions: Permission[]}) => {
-      if (response) {
-        this.permissions = response.permissions;
-        this.setPaginationSource(response.permissions);
+    this.store.select(selectPermissionItems).pipe(takeUntil(this.unsubscribe$)).subscribe((permissions: Permission[]) => {
+      if (permissions &&  permissions.length) {
+        this.permissions = permissions;
+        this.setPaginationSource(permissions);
       }
     });
   }

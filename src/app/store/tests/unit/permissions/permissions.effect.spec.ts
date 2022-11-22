@@ -21,7 +21,7 @@ describe('PermissionsEffects', () => {
   const permissions: Permission[] = [permission1, permission2];
   const permissionId: string = '22222';
   let mockPermissionService = jasmine.createSpyObj('Service', {
-    'getPermissions': of(permissions),
+    'getPermissions': of({permissions: permissions}),
     'createPermission': of({status: StoreApiStatus.OK, permission: permission1}),
     'editPermission': of({status: StoreApiStatus.OK, permission: permission2, id: permissionId}),
     'removePermission': of({status: StoreApiStatus.OK, id: permissionId}),
