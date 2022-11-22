@@ -5,6 +5,7 @@ import * as RolesActions from './roles.actions';
 import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { RolesService } from '../../services/cabinet/roles/roles.service';
+import { Role } from '../../models/cabinet/users/role';
 
 @Injectable()
 export class RolesEffects {
@@ -15,7 +16,9 @@ export class RolesEffects {
       ofType(RolesActions.RoleActionTypes.GET_ROLES),
       switchMap(() =>
         this.rolesService.getRoles().pipe(
-          map((permissions) => RolesActions.getRolesSuccess(permissions)),
+          map((data: {roles: Role[]}) => {
+            return RolesActions.getRolesSuccess({roles: data.roles})
+          }),
           catchError((error) => of(RolesActions.getRolesFailed({ error: error })))
         )
       )
@@ -51,7 +54,7 @@ export class RolesEffects {
             if (response.error) {
               return RolesActions.editRoleFailed({ apiMessage: response.error, typeMessage: 'error' });
             } else {
-              return RolesActions.editRoleSuccess({roleId: action.id, role: response.role,
+              return RolesActions.editRoleSuccess({roleId: response.id, role: response.role,
                 apiMessage:  response.status === 'ok' ? action.apiMessage : 'Server Error',
                 typeMessage: response.status === 'ok' ? 'success' : 'error'
               });
@@ -71,7 +74,7 @@ export class RolesEffects {
             apiMessage:  response.status === 'ok' ? action.apiMessage : 'Server Error',
             typeMessage: response.status === 'ok' ? 'success' : 'error'
           })),
-          catchError((error) => of(RolesActions.removeRoleFailed({ error: error })))
+          catchError((error) => of(RolesActions.removeRoleFailed({ roleId: action.roleId, error: error })))
         )
       )
     )

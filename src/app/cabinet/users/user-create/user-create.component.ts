@@ -4,7 +4,6 @@ import { UserCreateDto } from '../../../models/cabinet/users/dtos/user/user-crea
 import { statuses } from '../../../models/common/status/lists/statuses-list';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Status } from '../../../models/common/status/status';
-import { RolesListDto } from '../../../models/cabinet/users/dtos/roles-list-dto';
 import { RolesService } from '../../../services/cabinet/roles/roles.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,6 +13,8 @@ import { createUser } from '../../../store/users';
 import { Actions } from '@ngrx/effects';
 import { NotificationService } from '../../../services/cabinet/shared/notification/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { selectRolesItems } from '../../../store/roles';
+import { Role } from '../../../models/cabinet/users/role';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
     role: new FormControl(),
     status: new FormControl('0'),
   });
-  public roles: Array<RolesListDto>;
+  public roles: Array<Role>;
   public statuses: Array<Status>;
   public unsubscribe$ = new Subject();
 
@@ -46,8 +47,10 @@ export class UserCreateComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.rolesService.getRoles(true).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
-      this.roles = response;
+    this.store.select(selectRolesItems).pipe(takeUntil(this.unsubscribe$)).subscribe((roles: Role[]) => {
+      if (roles && roles.length) {
+        this.roles = roles;
+      }
     });
     this.statuses = statuses;
   }

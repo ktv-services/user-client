@@ -5,12 +5,12 @@ import * as PermissionActions from './permissions.actions';
 
 const permissionsReducer = createReducer(
   initialState,
-  on(PermissionActions.getPermissions, (state) => ({...state})),
-  on(PermissionActions.getPermissionsSuccess, (state, { permissions }) => ({
+  on(PermissionActions.getPermissions, (state: PermissionsState) => ({...state})),
+  on(PermissionActions.getPermissionsSuccess, (state: PermissionsState, { permissions }) => ({
     ...state,
-    permissions: permissions,
+    permissions: permissions
   })),
-  on(PermissionActions.createPermissionSuccess, (state, { permission, apiMessage }) => {
+  on(PermissionActions.createPermissionSuccess, (state: PermissionsState, { permission, apiMessage }) => {
     const updatedPermissions = [...state.permissions];
     updatedPermissions.push(permission);
     return {
@@ -19,7 +19,7 @@ const permissionsReducer = createReducer(
       apiMessage: apiMessage
     };
   }),
-  on(PermissionActions.editPermissionSuccess, (state, { permissionId, permission, apiMessage }) => {
+  on(PermissionActions.editPermissionSuccess, (state: PermissionsState, { permissionId, permission, apiMessage }) => {
     const permissionItemIndex = state.permissions.findIndex(
       (item) => item._id === permissionId
     );
@@ -32,7 +32,7 @@ const permissionsReducer = createReducer(
       apiMessage: apiMessage
     };
   }),
-  on(PermissionActions.deletePermissionSuccess, (state, { permissionId, apiMessage }) => {
+  on(PermissionActions.deletePermissionSuccess, (state: PermissionsState, { permissionId, apiMessage }) => {
     const permissionItemIndex = state.permissions.findIndex(
       (item) => item._id === permissionId
     );
@@ -46,10 +46,8 @@ const permissionsReducer = createReducer(
   })
 );
 
-export const getPermissionsReducer = (state: PermissionsState) => {
-  return {
-    permissions: state.permissions,
-  };
+export const getPermissionsReducer = (state: PermissionsState): any => {
+  return state.permissions;
 };
 
 export const getApiMessageReducer = (state: PermissionsState) => {

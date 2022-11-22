@@ -36,6 +36,7 @@ import { AuthInterceptor } from './auth-interceptor';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { StatusPipe } from '../pipes/cabinet/status.pipe';
 
 
 export function httpTranslateLoader(http: HttpClient) {
@@ -62,7 +63,8 @@ export function httpTranslateLoader(http: HttpClient) {
     RoleDetailComponent,
     RoleCreateComponent,
     RoleEditComponent,
-    WarningConfirmationComponent
+    WarningConfirmationComponent,
+    StatusPipe
   ],
   imports: [
     CommonModule,

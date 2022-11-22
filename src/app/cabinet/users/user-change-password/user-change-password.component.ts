@@ -45,7 +45,7 @@ export class UserChangePasswordComponent implements OnInit, OnDestroy {
       password: this.changePasswordUserForm.value.password ?? ''
     }
     this.translateService.get('changedUserPasswordSuccess').pipe(takeUntil(this.unsubscribe$)).subscribe((text) => {
-      this.store.dispatch(changePasswordUser({ id: this.id, password: password, apiMessage:  text }));
+      this.store.dispatch(changePasswordUser({ userId: this.id, password: password, apiMessage:  text }));
     });
     this.actions$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
       if (this.notificationService.isInitialized(action.apiMessage)) {

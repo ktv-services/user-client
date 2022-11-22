@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../store/core.state';
-import { deleteUser, selectUserItem, unbindSocialUser } from '../../../store/users';
+import { removeUser, selectUserItem, unbindSocialUser } from '../../../store/users';
 import { User } from '../../../models/cabinet/users/user';
 import { UserDetailDto } from '../../../models/cabinet/users/dtos/user/user-detail-dto';
 import * as fromUser from '../../../store/users/users.actions';
@@ -59,7 +59,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe$)).subscribe((dialogResult) => {
       if (dialogResult) {
         this.translateService.get('removedUserSuccess').pipe(takeUntil(this.unsubscribe$)).subscribe((text) => {
-          this.store.dispatch(deleteUser({ userId: id, apiMessage: text }));
+          this.store.dispatch(removeUser({ userId: id, apiMessage: text }));
         });
         this.actions$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
           if (this.notificationService.isInitialized(action.apiMessage)) {
@@ -80,7 +80,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe$)).subscribe((dialogResult) => {
       if (dialogResult) {
         this.translateService.get(['unbindUserSocialSuccess', 'removedUserSuccess']).pipe(takeUntil(this.unsubscribe$)).subscribe((textArray) => {
-          this.store.dispatch(unbindSocialUser({ id: id, socialId: socialId, apiMessage: textArray}));
+          this.store.dispatch(unbindSocialUser({ userId: id, socialId: socialId, apiMessage: textArray}));
         });
         const redirect: boolean = this.user?.socials?.length === 1;
         this.actions$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {

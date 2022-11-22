@@ -15,6 +15,7 @@ import { Actions } from '@ngrx/effects';
 import { NotificationService } from '../../../services/cabinet/shared/notification/notification.service';
 import { editRole } from '../../../store/roles';
 import { TranslateService } from '@ngx-translate/core';
+import { selectPermissionItems } from '../../../store/permissions';
 
 
 @Component({
@@ -53,8 +54,10 @@ export class RoleEditComponent implements OnInit, OnDestroy {
         this.fillEditPermissionForm(response.role);
       }
     });
-    this.permissionService.getPermissions(true).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
-      this.permissions = response;
+    this.store.select(selectPermissionItems).pipe(takeUntil(this.unsubscribe$)).subscribe((permissions: Permission[]) => {
+      if (permissions &&  permissions.length) {
+        this.permissions = permissions;
+      }
     });
   }
 
