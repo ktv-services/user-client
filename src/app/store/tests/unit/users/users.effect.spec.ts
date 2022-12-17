@@ -15,16 +15,20 @@ import {
 } from '../../../users';
 import { UserService } from '../../../../services/cabinet/users/user.servise';
 import { User } from '../../../../models/cabinet/users/user';
-import { getUserFirst, getUserNewCreate, getUserSecond } from '../../data/users.data';
+import { getUserFirst, getUserNewCreate, getUserSecond } from '../../../../testing/data/users.data';
 import { UserCreateDto } from '../../../../models/cabinet/users/dtos/user/user-create-dto';
 import { UserChangePasswordDto } from '../../../../models/cabinet/users/dtos/user/user-change-password-dto';
+import {Role} from "../../../../models/cabinet/users/role";
+import {getRoleFirst, getRoleSecond} from "../../../../testing/data/roles.data";
 
 describe('UsersEffects', () => {
   let actions$: Observable<any>;
   let effects: UsersEffects;
-  const user1: User = getUserFirst();
-  const user2: User = getUserSecond();
-  const userNew: UserCreateDto = getUserNewCreate();
+  const role1: Role = getRoleFirst();
+  const role2: Role = getRoleSecond();
+  const user1: User = getUserFirst(role1);
+  const user2: User = getUserSecond(role2);
+  const userNew: UserCreateDto = getUserNewCreate(role1);
   const users = [user1, user2];
   const userId = '22222';
   const socialId = '33333';

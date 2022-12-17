@@ -2,7 +2,7 @@ import * as RolesSelector from '../../../roles/roles.selector';
 import { Role } from '../../../../models/cabinet/users/role';
 import { initialState, RolesState } from '../../../roles/roles.state';
 import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
-import { getRoleFirst, getRoleSecond } from '../../data/roles.data';
+import { getRoleFirst, getRoleSecond } from '../../../../testing/data/roles.data';
 
 describe('RoleSelectors', () => {
   let state: RolesState;

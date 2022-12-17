@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  private setRolesCount(): void {
+  public setRolesCount(): void {
     this.roles.forEach((role) => {
       const usersByRole = this.users.filter(user => user.role.name === role.name);
       this.rolesCount.set(role.name, usersByRole.length);

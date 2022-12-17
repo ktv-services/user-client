@@ -1,7 +1,7 @@
-import { Permission } from '../../../models/cabinet/users/permission';
-import { StatusEnum } from '../../../models/common/status/enums/statuses.enum';
-import { Role } from '../../../models/cabinet/users/role';
-import { RoleDetailDto } from '../../../models/cabinet/users/dtos/role/role-detail-dto';
+import { Permission } from '../../models/cabinet/users/permission';
+import { StatusEnum } from '../../models/common/status/enums/statuses.enum';
+import { Role } from '../../models/cabinet/users/role';
+import { RoleDetailDto } from '../../models/cabinet/users/dtos/role/role-detail-dto';
 
 const permission: Permission = {name: 'Permission 1', status: StatusEnum.ACTIVE};
 

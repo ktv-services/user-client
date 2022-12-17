@@ -11,7 +11,7 @@ import {
 import { PermissionsEffects } from '../../../permissions';
 import { PermissionService } from '../../../../services/cabinet/permissions/permission.service';
 import { Permission } from "../../../../models/cabinet/users/permission";
-import { getPermissionFirst, getPermissionSecond } from "../../data/permissions.data";
+import { getPermissionFirst, getPermissionSecond } from "../../../../testing/data/permissions.data";
 import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
 
 describe('PermissionsFailedEffects', () => {

@@ -11,7 +11,7 @@ import { Permission } from '../../../../models/cabinet/users/permission';
 import { PermissionCreateDto } from '../../../../models/cabinet/users/dtos/permission/permission-create-dto';
 import { PermissionDetailDto } from '../../../../models/cabinet/users/dtos/permission/permission-detail-dto';
 import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
-import { getPermissionFirst, getPermissionNew, getPermissionSecond } from '../../data/permissions.data';
+import { getPermissionFirst, getPermissionNew, getPermissionSecond } from '../../../../testing/data/permissions.data';
 
 describe('PermissionReducer', () => {
   let state: PermissionsState;

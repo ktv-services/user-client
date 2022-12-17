@@ -14,15 +14,18 @@ import {
 } from '../../../users';
 import { UserService } from '../../../../services/cabinet/users/user.servise';
 import { User } from '../../../../models/cabinet/users/user';
-import { getUserNewCreate, getUserSecond } from '../../data/users.data';
+import { getUserNewCreate, getUserSecond } from '../../../../testing/data/users.data';
 import { UserCreateDto } from '../../../../models/cabinet/users/dtos/user/user-create-dto';
 import { UserChangePasswordDto } from '../../../../models/cabinet/users/dtos/user/user-change-password-dto';
+import { Role } from '../../../../models/cabinet/users/role';
+import { getRoleFirst } from '../../../../testing/data/roles.data';
 
 describe('UsersFailedEffects', () => {
   let actions$: Observable<any>;
   let effects: UsersEffects;
-  const user2: User = getUserSecond();
-  const userNew: UserCreateDto = getUserNewCreate();
+  const role1: Role = getRoleFirst();
+  const user2: User = getUserSecond(role1);
+  const userNew: UserCreateDto = getUserNewCreate(role1);
   const userId = '22222';
   const socialId = '33333';
   let mockUserService = jasmine.createSpyObj('Service', {

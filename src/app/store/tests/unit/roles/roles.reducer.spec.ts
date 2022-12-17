@@ -6,7 +6,7 @@ import { Role } from '../../../../models/cabinet/users/role';
 import { RoleCreateDto} from '../../../../models/cabinet/users/dtos/role/role-create-dto';
 import { RoleDetailDto } from '../../../../models/cabinet/users/dtos/role/role-detail-dto';
 import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
-import { getRoleFirst, getRoleNew, getRoleSecond } from '../../data/roles.data';
+import { getRoleFirst, getRoleNew, getRoleSecond } from '../../../../testing/data/roles.data';
 
 describe('RoleReducer', () => {
   let state: RolesState;

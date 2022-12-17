@@ -13,13 +13,16 @@ import { User } from '../../../../models/cabinet/users/user';
 import { UserCreateDto } from '../../../../models/cabinet/users/dtos/user/user-create-dto';
 import { UserDetailDto } from '../../../../models/cabinet/users/dtos/user/user-detail-dto';
 import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
-import { getUserFirst, getUserNew, getUserSecond } from '../../data/users.data';
-import { getRoleFirst } from '../../data/roles.data';
+import { getUserFirst, getUserNew, getUserSecond } from '../../../../testing/data/users.data';
+import { getRoleFirst, getRoleSecond } from '../../../../testing/data/roles.data';
+import { Role } from '../../../../models/cabinet/users/role';
 
 describe('UserReducer', () => {
   let state: UsersState;
-  const user1: User = getUserFirst();
-  const user2: User = getUserSecond();
+  const role1: Role = getRoleFirst();
+  const role2: Role = getRoleSecond();
+  const user1: User = getUserFirst(role1);
+  const user2: User = getUserSecond(role2);
   const userId = '22222';
 
   beforeEach(() => {
@@ -76,7 +79,7 @@ describe('UserReducer', () => {
     });
 
     it('editUserSuccess should edit user', () => {
-      const user: UserDetailDto = getUserNew();
+      const user: UserDetailDto = getUserNew(role1);
       const users = [user1, user2];
       state = {
         users: users,

@@ -9,7 +9,7 @@ import {
   RolesEffects
 } from '../../../roles';
 import { Role } from '../../../../models/cabinet/users/role';
-import { getRoleFirst, getRoleSecond } from '../../data/roles.data';
+import { getRoleFirst, getRoleSecond } from '../../../../testing/data/roles.data';
 import { RolesService } from '../../../../services/cabinet/roles/roles.service';
 
 describe('RoleFailedEffects', () => {

@@ -2,12 +2,15 @@ import * as UsersSelector from '../../../users/users.selector';
 import { User } from '../../../../models/cabinet/users/user';
 import { initialState, UsersState } from '../../../users/users.state';
 import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
-import { getUserFirst, getUserSecond } from '../../data/users.data';
+import { getUserFirst, getUserSecond } from '../../../../testing/data/users.data';
+import { Role } from '../../../../models/cabinet/users/role';
+import { getRoleFirst } from '../../../../testing/data/roles.data';
 
 describe('UserSelectors', () => {
   let state: UsersState;
-  const user1: User = getUserFirst();
-  const user2: User = getUserSecond();
+  const role1: Role = getRoleFirst();
+  const user1: User = getUserFirst(role1);
+  const user2: User = getUserSecond(role1);
   const userId = '22222';
 
   beforeEach(() => {

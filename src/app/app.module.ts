@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { CabinetModule } from './cabinet/cabinet.module';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { LoginService } from './services/login/login.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TokenService } from './services/token/token.service';
@@ -33,8 +33,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { UsersEffects } from './store/users/';
 import { PermissionsEffects } from './store/permissions';
 import { RolesEffects } from './store/roles';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-
+export function httpTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -46,6 +50,14 @@ import { RolesEffects } from './store/roles';
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'ua'
+    }),
     CabinetModule,
     AppRoutingModule,
     BrowserAnimationsModule,
