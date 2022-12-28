@@ -3,7 +3,7 @@ import { StatusEnum } from '../../models/common/status/enums/statuses.enum';
 import { PermissionDetailDto } from '../../models/cabinet/users/dtos/permission/permission-detail-dto';
 
 export function getPermissionFirst(): Permission {
-  return {_id: '11111', name: 'Permission 1', status: StatusEnum.ACTIVE};
+  return {_id: '1111', name: 'Permission 1', status: StatusEnum.ACTIVE};
 }
 
 export function getPermissionSecond(): Permission {

@@ -46,7 +46,6 @@
                      [pageSizeOptions]="[5, 10, 25, 100]"
                      (page)="paginationService.handlePage($event, permissions)"
                      aria-label="Select page">
-
       </mat-paginator>
     </ng-container>
     <ng-template #no_data>{{ 'notEntries' | translate }} ...</ng-template>
