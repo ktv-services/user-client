@@ -13,9 +13,11 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../store/core.state';
 import { Actions } from '@ngrx/effects';
 import { NotificationService } from '../../../services/cabinet/shared/notification/notification.service';
-import { editRole } from '../../../store/roles';
+import {editRole, selectRoleItem} from '../../../store/roles';
 import { TranslateService } from '@ngx-translate/core';
 import { selectPermissionItems } from '../../../store/permissions';
+import {Role} from "../../../models/cabinet/users/role";
+import {RoleDetailDto} from "../../../models/cabinet/users/dtos/role/role-detail-dto";
 
 
 @Component({
@@ -48,10 +50,10 @@ export class RoleEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.statuses = statuses;
     this.id = this.route.snapshot.params['id'];
-    this.rolesService.getRoleById(this.id).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
+    this.store.select(selectRoleItem({id: this.id})).pipe(takeUntil(this.unsubscribe$)).subscribe((response: Role | undefined) => {
       if (response) {
-        this.role = response.role;
-        this.fillEditPermissionForm(response.role);
+        this.role = response as RoleDetailDto;
+        this.fillEditPermissionForm(response);
       }
     });
     this.store.select(selectPermissionItems).pipe(takeUntil(this.unsubscribe$)).subscribe((permissions: Permission[]) => {

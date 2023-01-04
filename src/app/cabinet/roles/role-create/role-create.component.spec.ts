@@ -20,20 +20,24 @@ import { NotificationService } from '../../../services/cabinet/shared/notificati
 import { notificationServiceMock } from '../../../testing/mocks/service/notification-service.mock';
 import { Actions } from '@ngrx/effects';
 import { MatCardModule } from '@angular/material/card';
-import { PermissionEditComponent } from './permission-edit.component';
-import { expect } from "@angular/flex-layout/_private-utils/testing";
+import { RoleCreateComponent } from './role-create.component';
+import { getRoleFirst } from '../../../testing/data/roles.data';
+import { Permission } from '../../../models/cabinet/users/permission';
+import { Role } from '../../../models/cabinet/users/role';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 
-describe('PermissionEditComponent', () => {
-  let component: PermissionEditComponent;
-  let fixture: ComponentFixture<PermissionEditComponent>;
+describe('RoleCreateComponent', () => {
+  let component: RoleCreateComponent;
+  let fixture: ComponentFixture<RoleCreateComponent>;
 
-  const permission = getPermissionFirst();
+  const permission: Permission = getPermissionFirst();
+  const role: Role = getRoleFirst(permission);
   let mockStore = jasmine.createSpyObj('Store', {
-    'select': of(permission),
+    'select': of(role),
   });
   let mockActions = jasmine.createSpyObj('Actions', {
-    'select': of(permission),
+    'select': of(role),
   });
 
   const mockTranslateService = jasmine.createSpyObj('TranslateService', ['get']);
@@ -43,8 +47,9 @@ describe('PermissionEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PermissionEditComponent, TranslatePipeMock],
+      declarations: [ RoleCreateComponent, TranslatePipeMock],
       imports: [
+        HttpClientTestingModule,
         TranslateModule,
         MatSelectModule,
         MatFormFieldModule,
@@ -69,7 +74,7 @@ describe('PermissionEditComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PermissionEditComponent);
+    fixture = TestBed.createComponent(RoleCreateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -80,7 +85,7 @@ describe('PermissionEditComponent', () => {
 
   it('Check title', () => {
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.title').textContent).toBe('editPermission');
+    expect(compiled.querySelector('.title').textContent).toBe('createRole');
   });
 
   it('Check statuses correct', () => {
@@ -94,18 +99,19 @@ describe('PermissionEditComponent', () => {
     expect(component.statuses[2].title).toBe('Blocked');
   });
 
-  it('should fill form', () => {
-    expect(component.editPermissionForm.get('name')?.value).toBe(permission.name);
-    expect(component.editPermissionForm.get('status')?.value).toBe(permission.status);
-  });
 
   it('should make form invalid', () => {
     const compiled = fixture.debugElement.nativeElement;
-    component.editPermissionForm.get('name')?.setValue('');
-    fixture.detectChanges();
     expect(compiled.querySelector('button').getAttribute('disabled')).toBe('');
   });
 
-
+  it('should make form valid', () => {
+    const compiled = fixture.debugElement.nativeElement;
+    component.createRoleForm.get('name')?.setValue('Permission 1');
+    component.createRoleForm.get('status')?.setValue('1');
+    fixture.detectChanges();
+    expect(component.createRoleForm.valid).toBeTrue();
+    expect(compiled.querySelector('button').getAttribute('disabled')).toBeNull();
+  });
 
 });

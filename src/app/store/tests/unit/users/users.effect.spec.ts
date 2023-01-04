@@ -18,13 +18,15 @@ import { User } from '../../../../models/cabinet/users/user';
 import { getUserFirst, getUserNewCreate, getUserSecond } from '../../../../testing/data/users.data';
 import { UserCreateDto } from '../../../../models/cabinet/users/dtos/user/user-create-dto';
 import { UserChangePasswordDto } from '../../../../models/cabinet/users/dtos/user/user-change-password-dto';
-import {Role} from "../../../../models/cabinet/users/role";
-import {getRoleFirst, getRoleSecond} from "../../../../testing/data/roles.data";
+import { Role } from "../../../../models/cabinet/users/role";
+import { getRoleFirst, getRoleSecond } from "../../../../testing/data/roles.data";
+import { getPermissionFirst } from "../../../../testing/data/permissions.data";
 
 describe('UsersEffects', () => {
   let actions$: Observable<any>;
   let effects: UsersEffects;
-  const role1: Role = getRoleFirst();
+  const permission = getPermissionFirst();
+  const role1: Role = getRoleFirst(permission);
   const role2: Role = getRoleSecond();
   const user1: User = getUserFirst(role1);
   const user2: User = getUserSecond(role2);

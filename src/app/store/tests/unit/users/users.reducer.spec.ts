@@ -16,10 +16,12 @@ import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-
 import { getUserFirst, getUserNew, getUserSecond } from '../../../../testing/data/users.data';
 import { getRoleFirst, getRoleSecond } from '../../../../testing/data/roles.data';
 import { Role } from '../../../../models/cabinet/users/role';
+import { getPermissionFirst } from '../../../../testing/data/permissions.data';
 
 describe('UserReducer', () => {
   let state: UsersState;
-  const role1: Role = getRoleFirst();
+  const permission = getPermissionFirst();
+  const role1: Role = getRoleFirst(permission);
   const role2: Role = getRoleSecond();
   const user1: User = getUserFirst(role1);
   const user2: User = getUserSecond(role2);
@@ -61,7 +63,7 @@ describe('UserReducer', () => {
     });
 
     it('createUserSuccess should create user', () => {
-      const user: UserCreateDto = {email: 'newuser@gmail.com', password: '123', status: StatusEnum.ACTIVE, role: getRoleFirst()};
+      const user: UserCreateDto = {email: 'newuser@gmail.com', password: '123', status: StatusEnum.ACTIVE, role: getRoleFirst(permission)};
       const users = [user1, user2];
       state = {
         users: users,
@@ -97,7 +99,7 @@ describe('UserReducer', () => {
     });
 
     it('changePasswordUserSuccess should change password user', () => {
-      const user: User = {email: 'newuser@gmail.com', status: StatusEnum.ACTIVE, password: '123', role: getRoleFirst()};
+      const user: User = {email: 'newuser@gmail.com', status: StatusEnum.ACTIVE, password: '123', role: getRoleFirst(permission)};
       const users = [user1, user2];
       state = {
         users: users,

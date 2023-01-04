@@ -20,20 +20,25 @@ import { NotificationService } from '../../../services/cabinet/shared/notificati
 import { notificationServiceMock } from '../../../testing/mocks/service/notification-service.mock';
 import { Actions } from '@ngrx/effects';
 import { MatCardModule } from '@angular/material/card';
-import { PermissionEditComponent } from './permission-edit.component';
-import { expect } from "@angular/flex-layout/_private-utils/testing";
+import { RoleDetailComponent } from './role-detail.component';
+import { Permission } from '../../../models/cabinet/users/permission';
+import { Role } from '../../../models/cabinet/users/role';
+import { getRoleFirst } from '../../../testing/data/roles.data';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatListModule } from '@angular/material/list';
 
 
-describe('PermissionEditComponent', () => {
-  let component: PermissionEditComponent;
-  let fixture: ComponentFixture<PermissionEditComponent>;
+describe('RoleDetailComponent', () => {
+  let component: RoleDetailComponent;
+  let fixture: ComponentFixture<RoleDetailComponent>;
 
-  const permission = getPermissionFirst();
+  const permission: Permission = getPermissionFirst();
+  const role: Role = getRoleFirst(permission);
   let mockStore = jasmine.createSpyObj('Store', {
-    'select': of(permission),
+    'select': of(role),
   });
   let mockActions = jasmine.createSpyObj('Actions', {
-    'select': of(permission),
+    'select': of(role),
   });
 
   const mockTranslateService = jasmine.createSpyObj('TranslateService', ['get']);
@@ -43,8 +48,9 @@ describe('PermissionEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PermissionEditComponent, TranslatePipeMock],
+      declarations: [ RoleDetailComponent, TranslatePipeMock],
       imports: [
+        HttpClientTestingModule,
         TranslateModule,
         MatSelectModule,
         MatFormFieldModule,
@@ -56,7 +62,8 @@ describe('PermissionEditComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         MatDialogModule,
-        MatCardModule
+        MatCardModule,
+        MatListModule
       ],
       providers: [
         { provide: TranslateService, useValue: translateServiceMock },
@@ -69,7 +76,7 @@ describe('PermissionEditComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PermissionEditComponent);
+    fixture = TestBed.createComponent(RoleDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -78,34 +85,37 @@ describe('PermissionEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should get permission', () => {
+    expect(component.role?.name).toBe(role.name);
+  });
+
   it('Check title', () => {
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.title').textContent).toBe('editPermission');
+    expect(compiled.querySelector('.title').textContent).toContain('roleInformation');
   });
 
-  it('Check statuses correct', () => {
-    expect(component.statuses[0].key).toBe('new');
-    expect(component.statuses[0].title).toBe('New');
-
-    expect(component.statuses[1].key).toBe('active');
-    expect(component.statuses[1].title).toBe('Active');
-
-    expect(component.statuses[2].key).toBe('blocked');
-    expect(component.statuses[2].title).toBe('Blocked');
-  });
-
-  it('should fill form', () => {
-    expect(component.editPermissionForm.get('name')?.value).toBe(permission.name);
-    expect(component.editPermissionForm.get('status')?.value).toBe(permission.status);
-  });
-
-  it('should make form invalid', () => {
+  it('Check buttons', () => {
     const compiled = fixture.debugElement.nativeElement;
-    component.editPermissionForm.get('name')?.setValue('');
-    fixture.detectChanges();
-    expect(compiled.querySelector('button').getAttribute('disabled')).toBe('');
+    expect(compiled.querySelector('.btn-edit').getAttribute('ng-reflect-router-link')).toContain(`/cabinet/roles/edit/${role._id}`);
+    expect(compiled.querySelector('.btn-edit').textContent).toContain('edit');
+    expect(compiled.querySelector('.btn-delete').textContent).toContain('delete');
   });
 
+  it('Check table data', () => {
+    const compiled = fixture.debugElement.nativeElement;
+
+    expect(compiled.querySelectorAll('mat-card')[0].querySelector('mat-card-title').textContent).toContain('id');
+    expect(compiled.querySelectorAll('mat-card')[0].querySelector('mat-card-subtitle').textContent).toContain(role._id);
+
+    expect(compiled.querySelectorAll('mat-card')[1].querySelector('mat-card-title').textContent).toContain('name');
+    expect(compiled.querySelectorAll('mat-card')[1].querySelector('mat-card-subtitle').textContent).toContain(role.name);
+
+    expect(compiled.querySelectorAll('mat-card')[2].querySelector('mat-card-title').textContent).toContain('status');
+    expect(compiled.querySelectorAll('mat-card')[2].querySelector('mat-card-subtitle').textContent).toContain(role.status);
+
+    const permissionName = role.permissions?.length ? role.permissions[0].name : 'Permission 1';
+    expect(compiled.querySelectorAll('mat-list-item')[0].textContent).toContain(permissionName);
+  });
 
 
 });

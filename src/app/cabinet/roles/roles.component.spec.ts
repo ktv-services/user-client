@@ -3,10 +3,6 @@ import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { TranslatePipeMock } from '../../testing/mocks/pipes/translate-pipe.mock';
-import { PermissionsComponent } from './permissions.component';
-import { PermissionService } from '../../services/cabinet/permissions/permission.service';
-import { permissionServiceMock } from '../../testing/mocks/service/permission-service.mock';
-import { getPermissionFirst, getPermissionSecond } from '../../testing/data/permissions.data';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,15 +12,20 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RolesComponent } from './roles.component';
+import { getRoleFirst, getRoleSecond } from '../../testing/data/roles.data';
+import { rolesServiceMock } from '../../testing/mocks/service/roles-service.mock';
+import { RolesService } from '../../services/cabinet/roles/roles.service';
+import { getPermissionFirst } from '../../testing/data/permissions.data';
 
 
-describe('PermissionsComponent', () => {
-  let component: PermissionsComponent;
-  let fixture: ComponentFixture<PermissionsComponent>;
+describe('RolesComponent', () => {
+  let component: RolesComponent;
+  let fixture: ComponentFixture<RolesComponent>;
 
-  const permissions = [getPermissionFirst(), getPermissionSecond()];
+  const roles = [getRoleFirst(getPermissionFirst()), getRoleSecond()];
   let mockStore = jasmine.createSpyObj('Store', {
-    'select': of(permissions),
+    'select': of(roles),
   });
 
   const mockTranslateService = jasmine.createSpyObj('TranslateService', ['get']);
@@ -34,7 +35,7 @@ describe('PermissionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PermissionsComponent, TranslatePipeMock],
+      declarations: [ RolesComponent, TranslatePipeMock],
       imports: [
         TranslateModule,
         MatSelectModule,
@@ -50,13 +51,13 @@ describe('PermissionsComponent', () => {
       providers: [
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: Store, useValue: mockStore },
-        { provide: PermissionService, useValue: permissionServiceMock },
+        { provide: RolesService, useValue: rolesServiceMock },
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PermissionsComponent);
+    fixture = TestBed.createComponent(RolesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -66,21 +67,21 @@ describe('PermissionsComponent', () => {
   });
 
   it('should get permissions', () => {
-    component.getPermissions();
-    expect(component.permissions[0].name).toBe(permissions[0].name);
+    component.getRoles();
+    expect(component.roles[0].name).toBe(roles[0].name);
   });
 
   it('Filter permissions', () => {
-    component.permissions = permissions;
-    component.permissionsFilterForm.get('name')?.patchValue('Permission 2');
+    component.roles = roles;
+    component.rolesFilterForm.get('name')?.patchValue('Role 2');
     component.filterForm();
-    expect(component.filteredPermissions[0].name).toBe(permissions[1].name);
+    expect(component.filteredRoles[0].name).toBe(roles[1].name);
   });
 
   it('Check all titles', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('.title').textContent).toContain('filter');
-    expect(compiled.querySelector('.header .title').textContent).toContain('permissions');
+    expect(compiled.querySelector('.header .title').textContent).toContain('roles');
     expect(compiled.querySelector('.create-btn').textContent).toContain('create');
   });
 
