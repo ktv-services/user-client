@@ -9,13 +9,15 @@ import {
   RolesEffects
 } from '../../../roles';
 import { Role } from '../../../../models/cabinet/users/role';
-import { getRoleFirst, getRoleSecond } from '../../data/roles.data';
+import { getRoleFirst, getRoleSecond } from '../../../../testing/data/roles.data';
 import { RolesService } from '../../../../services/cabinet/roles/roles.service';
+import { getPermissionFirst } from '../../../../testing/data/permissions.data';
 
 describe('RoleFailedEffects', () => {
   let actions$: Observable<any>;
   let effects: RolesEffects;
-  const role1: Role = getRoleFirst();
+  const permission = getPermissionFirst();
+  const role1: Role = getRoleFirst(permission);
   const role2: Role = getRoleSecond();
   const roles = [role1, role2];
   const roleId = '22222';

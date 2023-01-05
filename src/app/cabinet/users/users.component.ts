@@ -23,10 +23,11 @@ import { Role } from '../../models/cabinet/users/role';
 })
 export class UsersComponent implements OnInit, OnDestroy {
   public users: Array<User> = [];
+  public filteredUsers: Array<User> = [];
   public roles: Array<Role>;
   public statuses: Array<Status>;
   public usersFilterForm = new FormGroup({
-    email: new FormControl(null),
+    email: new FormControl(''),
     role: new FormControl(null),
     status: new FormControl(null),
   });
@@ -52,7 +53,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.filterForm();
   }
 
-  private getUsers(): void {
+  public getUsers(): void {
     this.store.select(selectUserItems).pipe(takeUntil(this.unsubscribe$)).subscribe((users: User[]) => {
       if (users && users.length) {
         this.users = users;
@@ -61,14 +62,14 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
   }
 
-  private filterForm(): void {
+  public filterForm(): void {
     this.usersFilterForm.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((form) => {
-      const filteredUsers = this.users.filter((user) => {
+      this.filteredUsers = this.users.filter((user) => {
         return (form.email ? user.email.includes(form.email) : true)
           && (form.role ? user.role.name === form.role : true)
           && (form.status ? user.status === form.status : true);
       });
-      this.setPaginationSource(filteredUsers);
+      this.setPaginationSource(this.filteredUsers);
     });
   }
 

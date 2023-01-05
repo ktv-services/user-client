@@ -3,6 +3,10 @@ import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { TranslatePipeMock } from '../../testing/mocks/pipes/translate-pipe.mock';
+import { PermissionsComponent } from './permissions.component';
+import { PermissionService } from '../../services/cabinet/permissions/permission.service';
+import { permissionServiceMock } from '../../testing/mocks/service/permission-service.mock';
+import { getPermissionFirst, getPermissionSecond } from '../../testing/data/permissions.data';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -12,29 +16,15 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { getRoleFirst } from '../../testing/data/roles.data';
-import { rolesServiceMock } from '../../testing/mocks/service/roles-service.mock';
-import { RolesService } from '../../services/cabinet/roles/roles.service';
-import { getPermissionFirst } from '../../testing/data/permissions.data';
-import { UsersComponent } from './users.component';
-import { getUserFirst, getUserSecond } from '../../testing/data/users.data';
-import { User } from '../../models/cabinet/users/user';
-import { Role } from '../../models/cabinet/users/role';
-import { Permission } from '../../models/cabinet/users/permission';
-import { userServiceMock } from '../../testing/mocks/service/user-service.mock';
-import { UserService } from '../../services/cabinet/users/user.servise';
 
 
-describe('UsersComponent', () => {
-  let component: UsersComponent;
-  let fixture: ComponentFixture<UsersComponent>;
+describe('PermissionsComponent', () => {
+  let component: PermissionsComponent;
+  let fixture: ComponentFixture<PermissionsComponent>;
 
-  const permission: Permission = getPermissionFirst();
-  const role: Role = getRoleFirst(permission);
-  const users: User[] = [getUserFirst(role), getUserSecond(role)];
-
+  const permissions = [getPermissionFirst(), getPermissionSecond()];
   let mockStore = jasmine.createSpyObj('Store', {
-    'select': of(users),
+    'select': of(permissions),
   });
 
   const mockTranslateService = jasmine.createSpyObj('TranslateService', ['get']);
@@ -44,7 +34,7 @@ describe('UsersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UsersComponent, TranslatePipeMock],
+      declarations: [ PermissionsComponent, TranslatePipeMock],
       imports: [
         TranslateModule,
         MatSelectModule,
@@ -60,14 +50,13 @@ describe('UsersComponent', () => {
       providers: [
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: Store, useValue: mockStore },
-        { provide: UserService, useValue: userServiceMock },
-        { provide: RolesService, useValue: rolesServiceMock },
+        { provide: PermissionService, useValue: permissionServiceMock },
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UsersComponent);
+    fixture = TestBed.createComponent(PermissionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -76,22 +65,22 @@ describe('UsersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get users', () => {
-    component.getUsers();
-    expect(component.users[0].email).toBe(users[0].email);
+  it('should get permissions', () => {
+    component.getPermissions();
+    expect(component.permissions[0].name).toBe(permissions[0].name);
   });
 
-  it('Filter users', () => {
-    component.users = users;
-    component.usersFilterForm.get('email')?.patchValue('user2@gmail.com');
+  it('Filter permissions', () => {
+    component.permissions = permissions;
+    component.permissionsFilterForm.get('name')?.patchValue('Permission 2');
     component.filterForm();
-    expect(component.filteredUsers[0].email).toBe(users[1].email);
+    expect(component.filteredPermissions[0].name).toBe(permissions[1].name);
   });
 
   it('Check all titles', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('.title').textContent).toContain('filter');
-    expect(compiled.querySelector('.header .title').textContent).toContain('users');
+    expect(compiled.querySelector('.header .title').textContent).toContain('permissions');
     expect(compiled.querySelector('.create-btn').textContent).toContain('create');
   });
 

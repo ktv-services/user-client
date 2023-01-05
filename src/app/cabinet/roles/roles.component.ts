@@ -20,10 +20,11 @@ import { selectRolesItems } from '../../store/roles';
 })
 export class RolesComponent implements OnInit, OnDestroy {
   public roles: Array<Role> = [];
+  public filteredRoles: Array<Role> = [];
   public statuses: Array<Status>;
   public rolesFilterForm = new FormGroup({
     name: new FormControl(''),
-    status: new FormControl('0'),
+    status: new FormControl(''),
   });
   displayedColumns: string[] = ['name', 'status', 'actions'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -41,7 +42,7 @@ export class RolesComponent implements OnInit, OnDestroy {
     this.filterForm();
   }
 
-  private getRoles(): void {
+  public getRoles(): void {
     this.store.select(selectRolesItems).pipe(takeUntil(this.unsubscribe$)).subscribe((roles: Role[]) => {
       if (roles && roles.length) {
         this.roles = roles;
@@ -50,13 +51,13 @@ export class RolesComponent implements OnInit, OnDestroy {
     });
   }
 
-  private filterForm(): void {
+  public filterForm(): void {
     this.rolesFilterForm.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((form) => {
-      const filteredRoles = this.roles.filter((role) => {
+      this.filteredRoles = this.roles.filter((role) => {
         return (form.name ? role.name.includes(form.name) : true)
           && (form.status ? role.status === form.status : true);
       });
-      this.setPaginationSource(filteredRoles);
+      this.setPaginationSource(this.filteredRoles);
     });
   }
 

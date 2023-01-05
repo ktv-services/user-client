@@ -33,22 +33,17 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { WarningConfirmationComponent } from './shared/warning-confirmation/warning-confirmation.component';
 import { AuthInterceptor } from './auth-interceptor';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { StatusPipe } from '../pipes/cabinet/status.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
-
-export function httpTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
 
 @NgModule({
   declarations: [
     HeaderComponent,
+    HomeComponent,
     SidebarComponent,
     BreadcrumbsComponent,
-    HomeComponent,
     CabinetComponent,
     UsersComponent,
     UserDetailComponent,
@@ -80,16 +75,9 @@ export function httpTranslateLoader(http: HttpClient) {
     MatPaginatorModule,
     MatCardModule,
     MatDialogModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: httpTranslateLoader,
-        deps: [HttpClient]
-      },
-      defaultLanguage: 'ua'
-    }),
+    TranslateModule
   ],
-  exports: [CabinetComponent],
+  exports: [CabinetComponent, TranslateModule],
   providers: [
     PaginationService,
     {

@@ -12,29 +12,20 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { getRoleFirst } from '../../testing/data/roles.data';
+import { RolesComponent } from './roles.component';
+import { getRoleFirst, getRoleSecond } from '../../testing/data/roles.data';
 import { rolesServiceMock } from '../../testing/mocks/service/roles-service.mock';
 import { RolesService } from '../../services/cabinet/roles/roles.service';
 import { getPermissionFirst } from '../../testing/data/permissions.data';
-import { UsersComponent } from './users.component';
-import { getUserFirst, getUserSecond } from '../../testing/data/users.data';
-import { User } from '../../models/cabinet/users/user';
-import { Role } from '../../models/cabinet/users/role';
-import { Permission } from '../../models/cabinet/users/permission';
-import { userServiceMock } from '../../testing/mocks/service/user-service.mock';
-import { UserService } from '../../services/cabinet/users/user.servise';
 
 
-describe('UsersComponent', () => {
-  let component: UsersComponent;
-  let fixture: ComponentFixture<UsersComponent>;
+describe('RolesComponent', () => {
+  let component: RolesComponent;
+  let fixture: ComponentFixture<RolesComponent>;
 
-  const permission: Permission = getPermissionFirst();
-  const role: Role = getRoleFirst(permission);
-  const users: User[] = [getUserFirst(role), getUserSecond(role)];
-
+  const roles = [getRoleFirst(getPermissionFirst()), getRoleSecond()];
   let mockStore = jasmine.createSpyObj('Store', {
-    'select': of(users),
+    'select': of(roles),
   });
 
   const mockTranslateService = jasmine.createSpyObj('TranslateService', ['get']);
@@ -44,7 +35,7 @@ describe('UsersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UsersComponent, TranslatePipeMock],
+      declarations: [ RolesComponent, TranslatePipeMock],
       imports: [
         TranslateModule,
         MatSelectModule,
@@ -60,14 +51,13 @@ describe('UsersComponent', () => {
       providers: [
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: Store, useValue: mockStore },
-        { provide: UserService, useValue: userServiceMock },
         { provide: RolesService, useValue: rolesServiceMock },
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UsersComponent);
+    fixture = TestBed.createComponent(RolesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -76,22 +66,22 @@ describe('UsersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get users', () => {
-    component.getUsers();
-    expect(component.users[0].email).toBe(users[0].email);
+  it('should get roles', () => {
+    component.getRoles();
+    expect(component.roles[0].name).toBe(roles[0].name);
   });
 
-  it('Filter users', () => {
-    component.users = users;
-    component.usersFilterForm.get('email')?.patchValue('user2@gmail.com');
+  it('Filter roles', () => {
+    component.roles = roles;
+    component.rolesFilterForm.get('name')?.patchValue('Role 2');
     component.filterForm();
-    expect(component.filteredUsers[0].email).toBe(users[1].email);
+    expect(component.filteredRoles[0].name).toBe(roles[1].name);
   });
 
   it('Check all titles', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('.title').textContent).toContain('filter');
-    expect(compiled.querySelector('.header .title').textContent).toContain('users');
+    expect(compiled.querySelector('.header .title').textContent).toContain('roles');
     expect(compiled.querySelector('.create-btn').textContent).toContain('create');
   });
 

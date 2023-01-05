@@ -17,9 +17,9 @@
       <mat-card-title>{{ 'role' | translate }}</mat-card-title>
       <mat-card-subtitle>{{user.role.name}}</mat-card-subtitle>
     </mat-card>
-      <button mat-raised-button color="primary" [routerLink]="['/cabinet/users/edit/' + user._id]">{{ 'edit' | translate }}</button>
-      <button mat-raised-button color="primary" [routerLink]="['/cabinet/users/change-password/' + user._id]">{{ 'changePassword' | translate }}</button>
-      <button mat-raised-button color="warn" (click)="removeUser(user._id)">{{ 'delete' | translate }}</button>
+      <button mat-raised-button color="primary" class="btn-edit" [routerLink]="['/cabinet/users/edit/' + user._id]">{{ 'edit' | translate }}</button>
+      <button mat-raised-button color="primary" class="btn-change-password" [routerLink]="['/cabinet/users/change-password/' + user._id]">{{ 'changePassword' | translate }}</button>
+      <button mat-raised-button color="warn" class="btn-delete" (click)="removeUser(user._id)">{{ 'delete' | translate }}</button>
   </div>
   <div class="content-block social">
     <h1 class="title">{{ 'socialNetworks' | translate }}</h1>

@@ -2,7 +2,7 @@ import { PermissionsState } from '../../../permissions/permissions.state';
 import * as PermissionSelector from '../../../permissions/permissions.selector';
 import { Permission } from '../../../../models/cabinet/users/permission';
 import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
-import { getPermissionFirst, getPermissionSecond } from '../../data/permissions.data';
+import { getPermissionFirst, getPermissionSecond } from '../../../../testing/data/permissions.data';
 
 describe('PermissionSelectors', () => {
   const permission1: Permission = getPermissionFirst();
