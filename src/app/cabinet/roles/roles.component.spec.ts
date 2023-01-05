@@ -66,12 +66,12 @@ describe('RolesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get permissions', () => {
+  it('should get roles', () => {
     component.getRoles();
     expect(component.roles[0].name).toBe(roles[0].name);
   });
 
-  it('Filter permissions', () => {
+  it('Filter roles', () => {
     component.roles = roles;
     component.rolesFilterForm.get('name')?.patchValue('Role 2');
     component.filterForm();
