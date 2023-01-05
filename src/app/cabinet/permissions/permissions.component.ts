@@ -20,10 +20,11 @@ import { selectPermissionItems } from '../../store/permissions';
 })
 export class PermissionsComponent implements OnInit, OnDestroy {
   public permissions: Array<Permission> = [];
+  public filteredPermissions: Array<Permission> = [];
   public statuses: Array<Status>;
   public permissionsFilterForm = new FormGroup({
-    name: new FormControl(null),
-    status: new FormControl(null),
+    name: new FormControl(''),
+    status: new FormControl(''),
   });
   displayedColumns: string[] = ['name', 'status', 'actions'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -41,7 +42,7 @@ export class PermissionsComponent implements OnInit, OnDestroy {
     this.filterForm();
   }
 
-  private getPermissions(): void {
+  public getPermissions(): void {
     this.store.select(selectPermissionItems).pipe(takeUntil(this.unsubscribe$)).subscribe((permissions: Permission[]) => {
       if (permissions &&  permissions.length) {
         this.permissions = permissions;
@@ -50,13 +51,13 @@ export class PermissionsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private filterForm(): void {
+  public filterForm(): void {
     this.permissionsFilterForm.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((form) => {
-      const filteredPermissions = this.permissions.filter((permission) => {
+      this.filteredPermissions = this.permissions.filter((permission) => {
         return (form.name ? permission.name.includes(form.name) : true)
           && (form.status ? permission.status === form.status : true);
       });
-      this.setPaginationSource(filteredPermissions);
+      this.setPaginationSource(this.filteredPermissions);
     });
   }
 

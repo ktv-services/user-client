@@ -1,16 +1,18 @@
 import { reducer } from '../../../roles/roles.reducer';
 import { StatusEnum } from '../../../../models/common/status/enums/statuses.enum';
-import { initialState, RolesState } from '../../../roles/roles.state';
-import { createRoleSuccess, editRoleSuccess, getRoles, getRolesSuccess, removeRoleSuccess } from '../../../roles/roles.actions';
+import { initialState, RolesState } from '../../../roles';
+import { createRoleSuccess, editRoleSuccess, getRoles, getRolesSuccess, removeRoleSuccess } from '../../../roles';
 import { Role } from '../../../../models/cabinet/users/role';
 import { RoleCreateDto} from '../../../../models/cabinet/users/dtos/role/role-create-dto';
 import { RoleDetailDto } from '../../../../models/cabinet/users/dtos/role/role-detail-dto';
 import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
-import { getRoleFirst, getRoleNew, getRoleSecond } from '../../data/roles.data';
+import { getRoleFirst, getRoleNew, getRoleSecond } from '../../../../testing/data/roles.data';
+import { getPermissionFirst } from "../../../../testing/data/permissions.data";
 
 describe('RoleReducer', () => {
   let state: RolesState;
-  const role1: Role = getRoleFirst();
+  const permission = getPermissionFirst();
+  const role1: Role = getRoleFirst(permission);
   const role2: Role = getRoleSecond();
   const roleId = '22222';
 
@@ -68,7 +70,7 @@ describe('RoleReducer', () => {
     });
 
     it('editRoleSuccess should edit role', () => {
-      const role: RoleDetailDto = getRoleNew();
+      const role: RoleDetailDto = getRoleNew(permission);
       const roles = [role1, role2];
       state = {
         roles: roles,
