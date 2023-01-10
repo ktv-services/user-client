@@ -14,8 +14,8 @@ import { selectRolesItems } from '../../store/roles';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  public users: Array<User> = [];
-  public roles: Array<Role> = [];
+  public users: User[] = [];
+  public roles: Role[] = [];
   public userCount: number;
   public rolesCount: Map<string, number> = new Map();
   public unsubscribe$ = new Subject();

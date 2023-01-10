@@ -22,10 +22,10 @@ import { Role } from '../../models/cabinet/users/role';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  public users: Array<User> = [];
-  public filteredUsers: Array<User> = [];
-  public roles: Array<Role>;
-  public statuses: Array<Status>;
+  public users: User[] = [];
+  public filteredUsers: User[] = [];
+  public roles: Role[];
+  public statuses: Status[];
   public usersFilterForm = new FormGroup({
     email: new FormControl(''),
     role: new FormControl(null),

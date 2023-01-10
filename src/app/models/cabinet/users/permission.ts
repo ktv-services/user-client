@@ -1,4 +1,6 @@
-export interface Permission {
+import { Base } from './base.model';
+
+export interface Permission extends Base {
   _id?: string;
   name: string;
   status: string;

@@ -19,9 +19,9 @@ import { selectPermissionItems } from '../../store/permissions';
   styleUrls: ['./permissions.component.scss']
 })
 export class PermissionsComponent implements OnInit, OnDestroy {
-  public permissions: Array<Permission> = [];
-  public filteredPermissions: Array<Permission> = [];
-  public statuses: Array<Status>;
+  public permissions: Permission[] = [];
+  public filteredPermissions: Permission[] = [];
+  public statuses: Status[];
   public permissionsFilterForm = new FormGroup({
     name: new FormControl(''),
     status: new FormControl(''),

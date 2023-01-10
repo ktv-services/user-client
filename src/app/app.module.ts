@@ -35,6 +35,7 @@ import { PermissionsEffects } from './store/permissions';
 import { RolesEffects } from './store/roles';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { StatusCheckService } from './services/cabinet/shared/status/status-check.service';
 
 export function httpTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -82,6 +83,7 @@ export function httpTranslateLoader(http: HttpClient) {
     PermissionService,
     RolesService,
     RedirectService,
+    StatusCheckService,
     NotificationService,
     {
       provide: 'SocialAuthServiceConfig',
