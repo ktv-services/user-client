@@ -24,10 +24,10 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class PermissionEditComponent implements OnInit, OnDestroy {
   public editPermissionForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     status: new FormControl('0'),
   });
-  public statuses: Array<Status>;
+  public statuses: Status[];
   public permission: PermissionCreateDto;
   public id: string;
   public unsubscribe$ = new Subject();

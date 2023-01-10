@@ -6,7 +6,7 @@ export interface UserDetailDto {
   email: string;
   _id: string;
   role: Role;
-  socials: Array<SocialUser>;
-  permission: Array<Permission>;
+  socials: SocialUser[];
+  permission: Permission[];
   status: string;
 }
