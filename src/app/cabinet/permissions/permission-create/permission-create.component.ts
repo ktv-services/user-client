@@ -21,10 +21,10 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class PermissionCreateComponent implements OnInit, OnDestroy {
   public createPermissionForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     status: new FormControl('0'),
   });
-  public statuses: Array<Status>;
+  public statuses: Status[];
   public unsubscribe$ = new Subject();
 
   constructor(

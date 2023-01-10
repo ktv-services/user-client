@@ -16,8 +16,9 @@ import { NotificationService } from '../../../services/cabinet/shared/notificati
 import {editRole, selectRoleItem} from '../../../store/roles';
 import { TranslateService } from '@ngx-translate/core';
 import { selectPermissionItems } from '../../../store/permissions';
-import {Role} from "../../../models/cabinet/users/role";
-import {RoleDetailDto} from "../../../models/cabinet/users/dtos/role/role-detail-dto";
+import { Role } from '../../../models/cabinet/users/role';
+import { RoleDetailDto } from '../../../models/cabinet/users/dtos/role/role-detail-dto';
+import { StatusCheckService } from '../../../services/cabinet/shared/status/status-check.service';
 
 
 @Component({
@@ -27,14 +28,14 @@ import {RoleDetailDto} from "../../../models/cabinet/users/dtos/role/role-detail
 })
 export class RoleEditComponent implements OnInit, OnDestroy {
   public editRoleForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     status: new FormControl('0'),
     permissions: new FormControl(),
   });
-  public statuses: Array<Status>;
+  public statuses: Status[];
   public role: RoleCreateDto;
   public id: string;
-  public permissions: Array<Permission> = [];
+  public permissions: Permission[] = [];
   public unsubscribe$ = new Subject();
 
   constructor(
@@ -45,6 +46,7 @@ export class RoleEditComponent implements OnInit, OnDestroy {
     private actions$: Actions<any>,
     private notificationService: NotificationService,
     private translateService: TranslateService,
+    private statusCheckService: StatusCheckService,
   ) { }
 
   ngOnInit(): void {
@@ -58,7 +60,7 @@ export class RoleEditComponent implements OnInit, OnDestroy {
     });
     this.store.select(selectPermissionItems).pipe(takeUntil(this.unsubscribe$)).subscribe((permissions: Permission[]) => {
       if (permissions &&  permissions.length) {
-        this.permissions = permissions;
+        this.permissions = this.statusCheckService.getActiveRecords(permissions) as Permission[];
       }
     });
   }

@@ -16,7 +16,8 @@ import { Role } from '../../../models/cabinet/users/role';
 import { NotificationService } from '../../../services/cabinet/shared/notification/notification.service';
 import { Actions } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
-import {selectRolesItems} from "../../../store/roles";
+import { selectRolesItems } from '../../../store/roles';
+import { StatusCheckService } from '../../../services/cabinet/shared/status/status-check.service';
 
 
 @Component({
@@ -33,8 +34,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
     role: new FormControl('0'),
     status: new FormControl('0'),
   });
-  public roles: Array<Role>;
-  public statuses: Array<Status>;
+  public roles: Role[];
+  public statuses: Status[];
   public user: UserEditDto;
   public id: string;
   public unsubscribe$ = new Subject();
@@ -47,12 +48,13 @@ export class UserEditComponent implements OnInit, OnDestroy {
     private actions$: Actions<any>,
     private notificationService: NotificationService,
     private translateService: TranslateService,
+    private statusCheckService: StatusCheckService,
   ) { }
 
   ngOnInit(): void {
     this.store.select(selectRolesItems).pipe(takeUntil(this.unsubscribe$)).subscribe((roles: Role[]) => {
       if (roles && roles.length) {
-        this.roles = roles;
+        this.roles = this.statusCheckService.getActiveRecords(roles) as Role[];
       }
     });
     this.statuses = statuses;

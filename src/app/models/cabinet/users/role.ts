@@ -1,6 +1,7 @@
 import { Permission } from './permission';
+import { Base } from './base.model';
 
-export interface Role {
+export interface Role extends Base {
   _id?: string;
   name: string;
   status: string;

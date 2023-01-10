@@ -15,6 +15,7 @@ import { NotificationService } from '../../../services/cabinet/shared/notificati
 import { createRole } from '../../../store/roles';
 import { TranslateService } from '@ngx-translate/core';
 import { selectPermissionItems } from '../../../store/permissions';
+import { StatusCheckService } from '../../../services/cabinet/shared/status/status-check.service';
 
 
 @Component({
@@ -24,12 +25,12 @@ import { selectPermissionItems } from '../../../store/permissions';
 })
 export class RoleCreateComponent implements OnInit, OnDestroy {
   public createRoleForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     status: new FormControl('0'),
     permissions: new FormControl([]),
   });
-  public statuses: Array<Status>;
-  public permissions: Array<Permission> = [];
+  public statuses: Status[];
+  public permissions: Permission[] = [];
   public unsubscribe$ = new Subject();
 
   constructor(
@@ -39,13 +40,14 @@ export class RoleCreateComponent implements OnInit, OnDestroy {
     private actions$: Actions<any>,
     private notificationService: NotificationService,
     private translateService: TranslateService,
+    private statusCheckService: StatusCheckService,
   ) { }
 
   ngOnInit(): void {
     this.statuses = statuses;
     this.store.select(selectPermissionItems).pipe(takeUntil(this.unsubscribe$)).subscribe((permissions: Permission[]) => {
       if (permissions &&  permissions.length) {
-        this.permissions = permissions;
+        this.permissions = this.statusCheckService.getActiveRecords(permissions) as Permission[];
       }
     });
   }

@@ -19,9 +19,9 @@ import { selectRolesItems } from '../../store/roles';
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit, OnDestroy {
-  public roles: Array<Role> = [];
-  public filteredRoles: Array<Role> = [];
-  public statuses: Array<Status>;
+  public roles: Role[] = [];
+  public filteredRoles: Role[] = [];
+  public statuses: Status[];
   public rolesFilterForm = new FormGroup({
     name: new FormControl(''),
     status: new FormControl(''),
