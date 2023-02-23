@@ -90,26 +90,6 @@ export class UsersEffects {
     )
   );
 
-  unbindSocialUser$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UsersActions.UsersActionTypes.UNBIND_SOCIAL_USER),
-      switchMap((action) =>
-        this.userService.unbindSocial(action.userId, action.socialId).pipe(
-          map((response) => {
-            if (response.error) {
-              return UsersActions.unbindSocialUserFailed({ apiMessage: response.error, typeMessage: 'error' });
-            } else {
-              return UsersActions.unbindSocialUserSuccess({
-                apiMessage:  response.status === 'ok' ? action.apiMessage : 'Server Error',
-                typeMessage: response.status === 'ok' ? 'success' : 'error'
-              });
-            }
-          }),
-        )
-      )
-    )
-  );
-
   removeUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UsersActions.UsersActionTypes.REMOVE_USER),

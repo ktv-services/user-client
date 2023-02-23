@@ -5,8 +5,6 @@ import { LoginService } from '../services/login/login.service';
 import { TokenService } from '../services/token/token.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
-import { SocialUser } from '../models/login/social-user';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -23,7 +21,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     ]),
     password: new FormControl('', [Validators.required]),
   });
-  public isBlock: boolean;
   public unsubscribe$ = new Subject();
 
   constructor(
@@ -31,16 +28,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     private tokenService: TokenService,
     private router: Router,
     private snackbar: MatSnackBar,
-    private authService: SocialAuthService
   ) { }
 
   ngOnInit(): void {
     if (this.tokenService.isAuth) {
       this.router.navigate(['/cabinet']).then();
-    }
-    this.isBlock = this.loginService.isBlockUser();
-    if (!this.isBlock) {
-      this.loginService.clearBlockData();
     }
   }
 
@@ -56,41 +48,24 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  public loginFacebook(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((socialUser: SocialUser) => {
-      this.loginService.signInSocial(socialUser).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
-        if (response) {
-          this.handleResponse(response);
-        }
-      });
-    });
-  }
-
-  public loginGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((socialUser: SocialUser) => {
-      this.loginService.signInSocial(socialUser).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
-        if (response) {
-          this.handleResponse(response);
-        }
-      });
-    });
-  }
-
   private handleResponse(response: any): void {
-    if (response.error) {
-      const wrong = Number(this.loginService.storeWrongAttemp());
-      if (wrong === 5) {
-        this.loginService.blockUser()
-        this.isBlock = true;
-      }
-      this.snackbar.open(response.error, 'Close', {
-        duration: 3000,
-        verticalPosition: 'top'
-      });
+    if (response.statusCode === 401) {
+      this.displaySnackBar(response.message);
     } else {
-      this.tokenService.writeToken(response.token);
-      this.router.navigate(['/cabinet']).then();
+      this.tokenService.writeToken(response.access_token);
+      if (this.tokenService.isAuth) {
+        this.router.navigate(['/cabinet']).then();
+      } else {
+        this.displaySnackBar('You don\'t have access!');
+      }
     }
+  }
+
+  private displaySnackBar(message: string): void {
+    this.snackbar.open(message, 'Close', {
+      duration: 3000,
+      verticalPosition: 'top'
+    });
   }
 
   ngOnDestroy() {

@@ -70,41 +70,12 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  public unbindSocial(id: string, socialId: string): void {
-    this.generateWarningMessage();
-    const dialogRef = this.dialog.open(WarningConfirmationComponent, {
-      width: '400px',
-      height: '210px',
-      data: { message: this.socialGlobalMessage }
-    });
-    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe$)).subscribe((dialogResult) => {
-      if (dialogResult) {
-        this.translateService.get(['unbindUserSocialSuccess', 'removedUserSuccess']).pipe(takeUntil(this.unsubscribe$)).subscribe((textArray) => {
-          this.store.dispatch(unbindSocialUser({ userId: id, socialId: socialId, apiMessage: textArray}));
-        });
-        const redirect: boolean = this.user?.socials?.length === 1;
-        this.actions$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
-          if (this.notificationService.isInitialized(action.apiMessage)) {
-            this.notificationService.handleMessage(action.apiMessage, action.typeMessage, '/cabinet/users', redirect);
-          }
-        });
-        this.store.dispatch(new fromUser.LoadUsers());
-      }
-    });
-  }
-
   private generateWarningMessage(): void {
     this.translateService.get(['areYouSureToDelete', 'userPlus', 'thisUserContain', 'socialConnection', 'userWillBeDeleted'])
       .pipe(takeUntil(this.unsubscribe$)).subscribe((textArray) => {
         const baseMessage = textArray.areYouSureToDelete;
         this.userGlobalMessage = baseMessage.concat(textArray.userPlus);
-        if (this.user?.socials?.length) {
-          this.userGlobalMessage = this.userGlobalMessage.concat(textArray.thisUserContain);
-        }
         this.socialGlobalMessage = baseMessage.concat(textArray.socialConnection);
-        if (this.user?.socials?.length === 1) {
-          this.socialGlobalMessage = this.socialGlobalMessage.concat(textArray.userWillBeDeleted);
-        }
     });
   }
 

@@ -19,13 +19,11 @@ import { UserCreateDto } from '../../../../models/cabinet/users/dtos/user/user-c
 import { UserChangePasswordDto } from '../../../../models/cabinet/users/dtos/user/user-change-password-dto';
 import { Role } from '../../../../models/cabinet/users/role';
 import { getRoleFirst } from '../../../../testing/data/roles.data';
-import { getPermissionFirst } from '../../../../testing/data/permissions.data';
 
 describe('UsersFailedEffects', () => {
   let actions$: Observable<any>;
   let effects: UsersEffects;
-  const permission = getPermissionFirst();
-  const role1: Role = getRoleFirst(permission);
+  const role1: Role = getRoleFirst();
   const user2: User = getUserSecond(role1);
   const userNew: UserCreateDto = getUserNewCreate(role1);
   const userId = '22222';
@@ -70,14 +68,6 @@ describe('UsersFailedEffects', () => {
     const expectedAction = changePasswordUserSuccess({userId: userId, user: user2, apiMessage: StoreApiStatus.ERROR_MESSAGE, typeMessage: StoreApiStatus.ERROR});
     actions$ = of(changePasswordUser({userId: userId, password: userPasswordDto, apiMessage: StoreApiStatus.ERROR_MESSAGE}));
     effects.changePasswordUser$.subscribe(action => {
-      expect(action).toEqual(expectedAction);
-    });
-  });
-
-  it('unbindSocialUser$ should get failed', () => {
-    const expectedAction = unbindSocialUserSuccess({apiMessage: StoreApiStatus.ERROR_MESSAGE, typeMessage: StoreApiStatus.ERROR});
-    actions$ = of(unbindSocialUser({userId: userId, socialId: socialId, apiMessage: StoreApiStatus.ERROR_MESSAGE}));
-    effects.unbindSocialUser$.subscribe(action => {
       expect(action).toEqual(expectedAction);
     });
   });

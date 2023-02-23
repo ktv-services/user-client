@@ -8,15 +8,13 @@ import { User } from '../../models/cabinet/users/user';
 import { Role } from '../../models/cabinet/users/role';
 import { getRoleFirst, getRoleSecond } from '../../testing/data/roles.data';
 import { getUserFirst, getUserSecond } from '../../testing/data/users.data';
-import { getPermissionFirst } from '../../testing/data/permissions.data';
 
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  const permission = getPermissionFirst();
-  const role1: Role = getRoleFirst(permission);
+  const role1: Role = getRoleFirst();
   const role2: Role = getRoleSecond();
   const roles = [role1, role2];
   const user1: User = getUserFirst(role1);

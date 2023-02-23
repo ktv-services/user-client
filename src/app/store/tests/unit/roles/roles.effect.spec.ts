@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable, of } from 'rxjs';
-import { PermissionsEffects } from '../../../permissions';
 import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
 import {
   createRole,
@@ -15,13 +14,11 @@ import {
 import { Role } from '../../../../models/cabinet/users/role';
 import { getRoleFirst, getRoleSecond } from '../../../../testing/data/roles.data';
 import { RolesService } from '../../../../services/cabinet/roles/roles.service';
-import { getPermissionFirst } from '../../../../testing/data/permissions.data';
 
-describe('PermissionsEffects', () => {
+describe('RolesEffects', () => {
   let actions$: Observable<any>;
   let effects: RolesEffects;
-  const permission = getPermissionFirst();
-  const role1: Role = getRoleFirst(permission);
+  const role1: Role = getRoleFirst();
   const role2: Role = getRoleSecond();
   const roles = [role1, role2];
   const roleId = '22222';

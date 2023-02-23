@@ -23,17 +23,6 @@
   </div>
   <div class="content-block social">
     <h1 class="title">{{ 'socialNetworks' | translate }}</h1>
-    <ng-container *ngIf="user.socials.length;else no_data">
-      <mat-card *ngFor="let social of user.socials">
-        <h3 ngClass="{{social.provider | lowercase}}">{{social.provider}}</h3>
-        <img src="{{social.photoUrl}}" />
-        <mat-card-subtitle>{{social.id}}</mat-card-subtitle>
-        <mat-card-subtitle>{{social.email}}</mat-card-subtitle>
-        <mat-card-subtitle>{{social.firstName}}</mat-card-subtitle>
-        <mat-card-subtitle>{{social.lastName}}</mat-card-subtitle>
-        <button mat-raised-button color="warn" class="unbind" (click)="unbindSocial(user._id, social.id)">{{ 'unbind' | translate }}</button>
-      </mat-card>
-    </ng-container>
     <ng-template #no_data>{{ 'notEntries' | translate }}</ng-template>
   </div>
 </div>

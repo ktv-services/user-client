@@ -16,13 +16,4 @@
     <button mat-raised-button color="primary" class="btn-edit" [routerLink]="['/cabinet/roles/edit/' + role._id]">{{ 'edit' | translate }}</button>
     <button mat-raised-button color="warn" class="btn-delete" (click)="removeRole(role._id)">{{ 'delete' | translate }}</button>
   </div>
-  <div class="content-block permissions">
-    <h1 class="display-5 title">{{ 'permissions' | translate }}</h1>
-    <ng-container *ngIf="role.permissions.length; else no_data">
-      <mat-list>
-        <mat-list-item *ngFor="let permission of role.permissions">{{ permission.name }}</mat-list-item>
-      </mat-list>
-    </ng-container>
-    <ng-template #no_data>{{ 'notEntries' | translate }}</ng-template>
-  </div>
 </div>

@@ -1,6 +1,6 @@
 import { reducer } from '../../../users/users.reducer';
 import { StatusEnum } from '../../../../models/common/status/enums/statuses.enum';
-import { initialState, UsersState } from '../../../users/users.state';
+import { initialState, UsersState } from '../../../users';
 import {
   changePasswordUserSuccess,
   createUserSuccess,
@@ -8,7 +8,7 @@ import {
   editUserSuccess,
   getUsers,
   getUsersSuccess, unbindSocialUser
-} from '../../../users/users.actions';
+} from '../../../users';
 import { User } from '../../../../models/cabinet/users/user';
 import { UserCreateDto } from '../../../../models/cabinet/users/dtos/user/user-create-dto';
 import { UserDetailDto } from '../../../../models/cabinet/users/dtos/user/user-detail-dto';
@@ -16,12 +16,10 @@ import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-
 import { getUserFirst, getUserNew, getUserSecond } from '../../../../testing/data/users.data';
 import { getRoleFirst, getRoleSecond } from '../../../../testing/data/roles.data';
 import { Role } from '../../../../models/cabinet/users/role';
-import { getPermissionFirst } from '../../../../testing/data/permissions.data';
 
 describe('UserReducer', () => {
   let state: UsersState;
-  const permission = getPermissionFirst();
-  const role1: Role = getRoleFirst(permission);
+  const role1: Role = getRoleFirst();
   const role2: Role = getRoleSecond();
   const user1: User = getUserFirst(role1);
   const user2: User = getUserSecond(role2);
@@ -63,7 +61,7 @@ describe('UserReducer', () => {
     });
 
     it('createUserSuccess should create user', () => {
-      const user: UserCreateDto = {email: 'newuser@gmail.com', password: '123', status: StatusEnum.ACTIVE, role: getRoleFirst(permission)};
+      const user: UserCreateDto = {email: 'newuser@gmail.com', password: '123', status: StatusEnum.ACTIVE, role: getRoleFirst()};
       const users = [user1, user2];
       state = {
         users: users,
@@ -99,7 +97,7 @@ describe('UserReducer', () => {
     });
 
     it('changePasswordUserSuccess should change password user', () => {
-      const user: User = {email: 'newuser@gmail.com', status: StatusEnum.ACTIVE, password: '123', role: getRoleFirst(permission)};
+      const user: User = {email: 'newuser@gmail.com', status: StatusEnum.ACTIVE, password: '123', role: getRoleFirst()};
       const users = [user1, user2];
       state = {
         users: users,
@@ -112,21 +110,6 @@ describe('UserReducer', () => {
       expect(result.users.length).toBe(2);
       expect(result.users[1].password).toBe('123');
       expect(result.users[1].status).toBe(StatusEnum.ACTIVE);
-      expect(result.apiMessage).toBe(StoreApiStatus.OK);
-      expect(result.typeMessage).toBe(StoreApiStatus.SUCCESS);
-    });
-
-    it('unbindSocialUser should unbind social from user', () => {
-      const users = [user1, user2];
-      state = {
-        users: users,
-        apiMessage: StoreApiStatus.OK,
-        typeMessage: StoreApiStatus.SUCCESS
-      }
-      const action = unbindSocialUser({userId: userId, socialId: 'socialId', apiMessage: StoreApiStatus.OK});
-      const result = reducer(state, action);
-
-      expect(result.users.length).toBe(2);
       expect(result.apiMessage).toBe(StoreApiStatus.OK);
       expect(result.typeMessage).toBe(StoreApiStatus.SUCCESS);
     });

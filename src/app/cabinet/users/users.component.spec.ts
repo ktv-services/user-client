@@ -15,12 +15,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { getRoleFirst } from '../../testing/data/roles.data';
 import { rolesServiceMock } from '../../testing/mocks/service/roles-service.mock';
 import { RolesService } from '../../services/cabinet/roles/roles.service';
-import { getPermissionFirst } from '../../testing/data/permissions.data';
 import { UsersComponent } from './users.component';
 import { getUserFirst, getUserSecond } from '../../testing/data/users.data';
 import { User } from '../../models/cabinet/users/user';
 import { Role } from '../../models/cabinet/users/role';
-import { Permission } from '../../models/cabinet/users/permission';
 import { userServiceMock } from '../../testing/mocks/service/user-service.mock';
 import { UserService } from '../../services/cabinet/users/user.servise';
 
@@ -29,8 +27,7 @@ describe('UsersComponent', () => {
   let component: UsersComponent;
   let fixture: ComponentFixture<UsersComponent>;
 
-  const permission: Permission = getPermissionFirst();
-  const role: Role = getRoleFirst(permission);
+  const role: Role = getRoleFirst();
   const users: User[] = [getUserFirst(role), getUserSecond(role)];
 
   let mockStore = jasmine.createSpyObj('Store', {
