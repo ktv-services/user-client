@@ -3,12 +3,10 @@ import { Role } from '../../../../models/cabinet/users/role';
 import { initialState, RolesState } from '../../../roles';
 import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
 import { getRoleFirst, getRoleSecond } from '../../../../testing/data/roles.data';
-import { getPermissionFirst } from '../../../../testing/data/permissions.data';
 
 describe('RoleSelectors', () => {
   let state: RolesState;
-  const permission = getPermissionFirst();
-  const role1: Role = getRoleFirst(permission);
+  const role1: Role = getRoleFirst();
   const role2: Role = getRoleSecond();
   const roleId = '22222';
 

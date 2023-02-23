@@ -7,12 +7,10 @@ import { RoleCreateDto} from '../../../../models/cabinet/users/dtos/role/role-cr
 import { RoleDetailDto } from '../../../../models/cabinet/users/dtos/role/role-detail-dto';
 import { StoreApiStatus } from '../../../../models/common/store/enums/store-api-status.enum';
 import { getRoleFirst, getRoleNew, getRoleSecond } from '../../../../testing/data/roles.data';
-import { getPermissionFirst } from "../../../../testing/data/permissions.data";
 
 describe('RoleReducer', () => {
   let state: RolesState;
-  const permission = getPermissionFirst();
-  const role1: Role = getRoleFirst(permission);
+  const role1: Role = getRoleFirst();
   const role2: Role = getRoleSecond();
   const roleId = '22222';
 
@@ -70,7 +68,7 @@ describe('RoleReducer', () => {
     });
 
     it('editRoleSuccess should edit role', () => {
-      const role: RoleDetailDto = getRoleNew(permission);
+      const role: RoleDetailDto = getRoleNew();
       const roles = [role1, role2];
       state = {
         roles: roles,

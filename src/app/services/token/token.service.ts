@@ -13,7 +13,7 @@ export class TokenService {
     let role = localStorage.getItem('role');
     let result: boolean;
 
-    if (token && (role === 'Admin'))
+    if (token && (role === 'admin'))
       result = true;
     else
       result = false;
@@ -23,7 +23,7 @@ export class TokenService {
   public writeToken(jwtToken: string): void {
     const tokenData: Token = jwt_decode(jwtToken);
     localStorage.setItem('token', jwtToken);
-    localStorage.setItem('id', tokenData.id);
+    localStorage.setItem('id', tokenData.sub);
     localStorage.setItem('email', tokenData.email);
     localStorage.setItem('role', tokenData.role);
     localStorage.setItem('iat', tokenData.iat);
@@ -41,6 +41,16 @@ export class TokenService {
 
   public getToken(): string|null {
     return localStorage.getItem('token');
+  }
+
+  public isTokenExpired(): boolean {
+    const currentDate = Math.floor(new Date().getTime()/1000);
+    const expiredDate = this.getExpiredDate();
+    return (currentDate - expiredDate) > 0;
+  }
+
+  public getExpiredDate(): number {
+    return Number(localStorage.getItem('exp'));
   }
 
 }

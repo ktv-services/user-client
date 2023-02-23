@@ -7,7 +7,7 @@ export class CabinetGuard implements CanActivate, CanLoad {
   constructor(private router: Router, private tokenService: TokenService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.tokenService.isAuth) {
+    if (this.tokenService.isAuth && !this.tokenService.isTokenExpired()) {
       return true;
     }
     this.router.navigate(['/']).then();
@@ -15,7 +15,7 @@ export class CabinetGuard implements CanActivate, CanLoad {
   }
 
   canLoad(route: Route): boolean {
-    if (this.tokenService.isAuth) {
+    if (this.tokenService.isAuth && !this.tokenService.isTokenExpired()) {
       return true;
     }
     this.router.navigate(['/']).then();

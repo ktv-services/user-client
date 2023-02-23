@@ -3,9 +3,6 @@ import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { TranslatePipeMock } from '../../../testing/mocks/pipes/translate-pipe.mock';
-import { PermissionService } from '../../../services/cabinet/permissions/permission.service';
-import { permissionServiceMock } from '../../../testing/mocks/service/permission-service.mock';
-import { getPermissionFirst } from '../../../testing/data/permissions.data';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,7 +18,6 @@ import { notificationServiceMock } from '../../../testing/mocks/service/notifica
 import { Actions } from '@ngrx/effects';
 import { MatCardModule } from '@angular/material/card';
 import { expect } from '@angular/flex-layout/_private-utils/testing';
-import { Permission } from '../../../models/cabinet/users/permission';
 import { Role } from '../../../models/cabinet/users/role';
 import { getRoleFirst } from '../../../testing/data/roles.data';
 import { RoleEditComponent } from './role-edit.component';
@@ -32,8 +28,7 @@ describe('RoleEditComponent', () => {
   let component: RoleEditComponent;
   let fixture: ComponentFixture<RoleEditComponent>;
 
-  const permission: Permission = getPermissionFirst();
-  const role: Role = getRoleFirst(permission);
+  const role: Role = getRoleFirst();
   let mockStore = jasmine.createSpyObj('Store', {
     'select': of(role),
   });
@@ -68,7 +63,6 @@ describe('RoleEditComponent', () => {
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: Store, useValue: mockStore },
         { provide: Actions, useValue: mockActions },
-        { provide: PermissionService, useValue: permissionServiceMock },
         { provide: NotificationService, useValue: notificationServiceMock },
       ],
     }).compileComponents();
@@ -101,10 +95,8 @@ describe('RoleEditComponent', () => {
   });
 
   it('should fill form', () => {
-    const permissionId = role.permissions?.length ? role?.permissions[0]._id : '1111';
     expect(component.editRoleForm.get('name')?.value).toBe(role.name);
     expect(component.editRoleForm.get('status')?.value).toBe(role.status);
-    expect(component.editRoleForm.get('permissions')?.value).toEqual([permissionId]);
   });
 
   it('should make form invalid', () => {

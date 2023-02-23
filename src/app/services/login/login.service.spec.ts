@@ -4,7 +4,6 @@ import { Login } from '../../models/login/login';
 import { createSpyFromClass, Spy } from 'jasmine-auto-spies';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { SocialUser } from '../../models/login/social-user';
 
 
 describe('LoginService', () => {
@@ -14,14 +13,6 @@ describe('LoginService', () => {
       email: 'fake@fake.com',
       password: '123'
   };
-  const fakeSocialUser: SocialUser = {
-    id: '1',
-    email: 'fake@fake.com',
-    firstName: 'fakeFirstName',
-    lastName: 'fakeLastName',
-    photoUrl: 'fakePhotoUrl',
-    provider: 'fakeProvider',
-  }
   const fakeToken: any = {
     token: 'fake-token'
   }
@@ -48,40 +39,5 @@ describe('LoginService', () => {
     expect(httpSpy.post.calls.count()).toBe(1);
   });
 
-  it('should get token when sign in via socials', (done: DoneFn) => {
-    httpSpy.post.and.nextWith(fakeToken);
-    service.signInSocial(fakeSocialUser).subscribe(response => {
-      expect(response).toEqual(fakeToken);
-      done();
-    });
-    done.fail
-    expect(httpSpy.post.calls.count()).toBe(1);
-  });
-
-  it('should clear block data', () => {
-    localStorage.setItem('wrong', '5');
-    localStorage.setItem('block', '1');
-    service.clearBlockData();
-    expect(localStorage.getItem('wrong')).toBeNull();
-    expect(localStorage.getItem('block')).toBeNull();
-  });
-
-  it('should store wrong attemp', () => {
-    localStorage.setItem('wrong', '1');
-    service.storeWrongAttemp();
-    expect(localStorage.getItem('wrong')).toEqual('2');
-  });
-
-  it('should block user', () => {
-    service.blockUser();
-    expect(localStorage.getItem('block')).not.toBeNull();
-  });
-
-  it('should is block user', () => {
-    const currentTime = new Date().getTime();
-    localStorage.setItem('block', String(currentTime + 5 * 60000));
-    const result = service.isBlockUser();
-    expect(result).toBeTrue();
-  });
 
 });

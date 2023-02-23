@@ -1,5 +1,5 @@
 export interface Token {
-  id: string;
+  sub: string;
   email: string;
   exp: string;
   iat: string;

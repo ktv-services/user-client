@@ -10,7 +10,6 @@ import { LoginService } from './services/login/login.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TokenService } from './services/token/token.service';
 import { UserService } from './services/cabinet/users/user.servise';
-import { PermissionService } from './services/cabinet/permissions/permission.service';
 import { RolesService } from './services/cabinet/roles/roles.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
@@ -31,7 +30,6 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store';
 import { EffectsModule } from '@ngrx/effects';
 import { UsersEffects } from './store/users/';
-import { PermissionsEffects } from './store/permissions';
 import { RolesEffects } from './store/roles';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -74,13 +72,12 @@ export function httpTranslateLoader(http: HttpClient) {
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([UsersEffects, PermissionsEffects, RolesEffects]),
+    EffectsModule.forRoot([UsersEffects, RolesEffects]),
   ],
   providers: [
     LoginService,
     TokenService,
     UserService,
-    PermissionService,
     RolesService,
     RedirectService,
     StatusCheckService,

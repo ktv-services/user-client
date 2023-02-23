@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Login } from '../../models/login/login';
-import { SocialUser } from '../../models/login/social-user';
 
 @Injectable({
   providedIn: 'root'
@@ -19,46 +18,10 @@ export class LoginService {
   }
 
   public signIn(login: Login): Observable<any> {
-    return this.http.post(this.baseUrl + 'signin',
-      {email: login.email, password: login.password, type: 'Admin'},
+    return this.http.post(this.baseUrl + 'login',
+      {email: login.email, password: login.password},
       { headers: this.headers })
       .pipe(catchError(this.error));
-  }
-
-  public signInSocial(socialUser: SocialUser): Observable<any> {
-    return this.http.post(this.baseUrl + 'social', {socialUser, type: 'Admin'},
-      { headers: this.headers })
-      .pipe(catchError(this.error));
-  }
-
-  public storeWrongAttemp(): string | null {
-    let wrong = localStorage.getItem('wrong');
-    if (wrong) {
-      const newWrong = Number(wrong) + 1;
-      localStorage.setItem('wrong', String(newWrong));
-    } else {
-      localStorage.setItem('wrong', '1');
-    }
-    return localStorage.getItem('wrong');
-  }
-
-  public blockUser(): void {
-    const time = new Date().getTime() + 5 * 60000;
-    localStorage.setItem('block', String(time));
-  }
-
-  public isBlockUser() : boolean {
-    let blockTime = localStorage.getItem('block');
-    if (blockTime) {
-      const currentTime = new Date().getTime();
-      return !(Number(currentTime) > Number(blockTime));
-    }
-    return false;
-  }
-
-  public clearBlockData(): void {
-    localStorage.removeItem('wrong');
-    localStorage.removeItem('block');
   }
 
   error(error: HttpErrorResponse): Observable<any> {
