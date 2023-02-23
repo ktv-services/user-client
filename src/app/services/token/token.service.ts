@@ -13,7 +13,7 @@ export class TokenService {
     let role = localStorage.getItem('role');
     let result: boolean;
 
-    if (token && (role === 'Admin'))
+    if (token && (role === 'admin'))
       result = true;
     else
       result = false;
@@ -23,7 +23,7 @@ export class TokenService {
   public writeToken(jwtToken: string): void {
     const tokenData: Token = jwt_decode(jwtToken);
     localStorage.setItem('token', jwtToken);
-    localStorage.setItem('id', tokenData.id);
+    localStorage.setItem('id', tokenData.sub);
     localStorage.setItem('email', tokenData.email);
     localStorage.setItem('role', tokenData.role);
     localStorage.setItem('iat', tokenData.iat);

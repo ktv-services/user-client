@@ -32,7 +32,6 @@ describe('AppComponent', () => {
       providers: [
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: MatSnackBar, useValue: matSnackbarServiceMock },
-        { provide: SocialAuthService, useValue: socialAuthServiceMock },
       ]
     }).compileComponents();
   });

@@ -22,7 +22,6 @@ import { WarningConfirmationComponent } from './shared/warning-confirmation/warn
 import { AuthInterceptor } from './auth-interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
-import { PermissionsModule } from './permissions/permissions.module';
 import { StatusPipesModule } from '../pipes/cabinet/status/status.pipe.module';
 import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
@@ -52,7 +51,6 @@ import { UsersModule } from './users/users.module';
     MatCardModule,
     MatDialogModule,
     TranslateModule,
-    PermissionsModule,
     RolesModule,
     UsersModule,
     StatusPipesModule

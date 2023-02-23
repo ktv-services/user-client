@@ -6,7 +6,7 @@ import { UserCreateDto } from '../../models/cabinet/users/dtos/user/user-create-
 
 
 export function getUserFirst(role: Role): User {
-  return {_id: '11111', email: 'user1@gmail.com', status: StatusEnum.ACTIVE, role: role, socials: []};
+  return {_id: '11111', email: 'user1@gmail.com', status: StatusEnum.ACTIVE, role: role};
 }
 
 export function getUserSecond(role: Role): User {
@@ -14,7 +14,7 @@ export function getUserSecond(role: Role): User {
 }
 
 export function getUserNew(role: Role): UserDetailDto {
-  return {_id: '22222', email: 'newuser@gmail.com', status: StatusEnum.ACTIVE, role: role, socials: [], permission: []};
+  return {_id: '22222', email: 'newuser@gmail.com', status: StatusEnum.ACTIVE, role: role};
 }
 
 export function getUserNewCreate(role: Role): UserCreateDto {

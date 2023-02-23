@@ -1,11 +1,13 @@
 import { TestBed } from "@angular/core/testing";
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { StatusCheckService } from './status-check.service';
-import { getPermissionFirst, getPermissionNew, getPermissionSecond } from '../../../../testing/data/permissions.data';
-import { Permission } from '../../../../models/cabinet/users/permission';
+import { Role } from '../../../../models/cabinet/users/role';
+import { getRoles } from '../../../../testing/data/roles.data';
 
 describe('StatusCheckService', () => {
   let service: StatusCheckService;
+  const roles: Role[] = getRoles();
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -17,11 +19,10 @@ describe('StatusCheckService', () => {
   });
 
   it('should get active records', () => {
-    const records: Permission[] = [getPermissionFirst(), getPermissionSecond(), getPermissionNew()];
-    const result = service.getActiveRecords(records) as Permission[];
-    expect(result.length).toBe(2);
-    expect(result[0].name).toBe(getPermissionFirst().name);
-    expect(result[1].name).toBe(getPermissionNew().name);
+    const records: Role[] = roles;
+    const result = service.getActiveRecords(records) as Role[];
+    expect(result.length).toBe(3);
+    expect(result[0].name).toBe(roles[0].name);
   });
 
 });

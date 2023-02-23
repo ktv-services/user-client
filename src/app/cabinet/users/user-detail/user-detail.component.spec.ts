@@ -3,7 +3,6 @@ import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { TranslatePipeMock } from '../../../testing/mocks/pipes/translate-pipe.mock';
-import { getPermissionFirst } from '../../../testing/data/permissions.data';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -18,7 +17,6 @@ import { NotificationService } from '../../../services/cabinet/shared/notificati
 import { notificationServiceMock } from '../../../testing/mocks/service/notification-service.mock';
 import { Actions } from '@ngrx/effects';
 import { MatCardModule } from '@angular/material/card';
-import { Permission } from '../../../models/cabinet/users/permission';
 import { Role } from '../../../models/cabinet/users/role';
 import { getRoleFirst } from '../../../testing/data/roles.data';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -34,8 +32,7 @@ describe('UserDetailComponent', () => {
   let component: UserDetailComponent;
   let fixture: ComponentFixture<UserDetailComponent>;
 
-  const permission: Permission = getPermissionFirst();
-  const role: Role = getRoleFirst(permission);
+  const role: Role = getRoleFirst();
   const user: User = getUserFirst(role);
   let mockStore = jasmine.createSpyObj('Store', {
     'select': of(user),

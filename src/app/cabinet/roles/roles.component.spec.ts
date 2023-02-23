@@ -16,14 +16,13 @@ import { RolesComponent } from './roles.component';
 import { getRoleFirst, getRoleSecond } from '../../testing/data/roles.data';
 import { rolesServiceMock } from '../../testing/mocks/service/roles-service.mock';
 import { RolesService } from '../../services/cabinet/roles/roles.service';
-import { getPermissionFirst } from '../../testing/data/permissions.data';
 
 
 describe('RolesComponent', () => {
   let component: RolesComponent;
   let fixture: ComponentFixture<RolesComponent>;
 
-  const roles = [getRoleFirst(getPermissionFirst()), getRoleSecond()];
+  const roles = [getRoleFirst(), getRoleSecond()];
   let mockStore = jasmine.createSpyObj('Store', {
     'select': of(roles),
   });

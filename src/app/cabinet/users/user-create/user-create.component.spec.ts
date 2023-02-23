@@ -3,9 +3,6 @@ import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { TranslatePipeMock } from '../../../testing/mocks/pipes/translate-pipe.mock';
-import { PermissionService } from '../../../services/cabinet/permissions/permission.service';
-import { permissionServiceMock } from '../../../testing/mocks/service/permission-service.mock';
-import { getPermissionFirst } from '../../../testing/data/permissions.data';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,7 +18,6 @@ import { notificationServiceMock } from '../../../testing/mocks/service/notifica
 import { Actions } from '@ngrx/effects';
 import { MatCardModule } from '@angular/material/card';
 import { getRoleFirst } from '../../../testing/data/roles.data';
-import { Permission } from '../../../models/cabinet/users/permission';
 import { Role } from '../../../models/cabinet/users/role';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UserCreateComponent } from './user-create.component';
@@ -37,8 +33,7 @@ describe('UserCreateComponent', () => {
   let component: UserCreateComponent;
   let fixture: ComponentFixture<UserCreateComponent>;
 
-  const permission: Permission = getPermissionFirst();
-  const role: Role = getRoleFirst(permission);
+  const role: Role = getRoleFirst();
   const user: User = getUserFirst(role);
   let mockStore = jasmine.createSpyObj('Store', {
     'select': of(user),

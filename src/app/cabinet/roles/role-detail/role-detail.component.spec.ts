@@ -3,9 +3,6 @@ import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { TranslatePipeMock } from '../../../testing/mocks/pipes/translate-pipe.mock';
-import { PermissionService } from '../../../services/cabinet/permissions/permission.service';
-import { permissionServiceMock } from '../../../testing/mocks/service/permission-service.mock';
-import { getPermissionFirst } from '../../../testing/data/permissions.data';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,7 +18,6 @@ import { notificationServiceMock } from '../../../testing/mocks/service/notifica
 import { Actions } from '@ngrx/effects';
 import { MatCardModule } from '@angular/material/card';
 import { RoleDetailComponent } from './role-detail.component';
-import { Permission } from '../../../models/cabinet/users/permission';
 import { Role } from '../../../models/cabinet/users/role';
 import { getRoleFirst } from '../../../testing/data/roles.data';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -32,8 +28,7 @@ describe('RoleDetailComponent', () => {
   let component: RoleDetailComponent;
   let fixture: ComponentFixture<RoleDetailComponent>;
 
-  const permission: Permission = getPermissionFirst();
-  const role: Role = getRoleFirst(permission);
+  const role: Role = getRoleFirst();
   let mockStore = jasmine.createSpyObj('Store', {
     'select': of(role),
   });
@@ -69,7 +64,6 @@ describe('RoleDetailComponent', () => {
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: Store, useValue: mockStore },
         { provide: Actions, useValue: mockActions },
-        { provide: PermissionService, useValue: permissionServiceMock },
         { provide: NotificationService, useValue: notificationServiceMock },
       ],
     }).compileComponents();
@@ -112,9 +106,6 @@ describe('RoleDetailComponent', () => {
 
     expect(compiled.querySelectorAll('mat-card')[2].querySelector('mat-card-title').textContent).toContain('status');
     expect(compiled.querySelectorAll('mat-card')[2].querySelector('mat-card-subtitle').textContent).toContain(role.status);
-
-    const permissionName = role.permissions?.length ? role.permissions[0].name : 'Permission 1';
-    expect(compiled.querySelectorAll('mat-list-item')[0].textContent).toContain(permissionName);
   });
 
 

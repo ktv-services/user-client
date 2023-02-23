@@ -5,9 +5,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('TokenService', () => {
   let service: TokenService;
-  const fakeToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYyNmFkZWI1ZmFkN2UzNzllZjQzODA3ZSIsImVtYWlsIjoidXNlc' +
-    'jFAZ21haWwuY29tIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjUzMTQwODE5Mjg1LCJleHAiOjE2NTM3NDU2MTkyODV9.3tqan-6pTIAy052eu1pu4ZjBU' +
-    'khCiwJVc3MG8TqJ9nT63L5CgHzvxCKBeGL_rwiROIcdiEwBkYPHe7TsPpoRGg';
+  const fakeToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInN1YiI6IjYzZWZhNzNlZDVkMmY5YmUwN' +
+    '2ZlOTg2YyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3NzE1MjU1OCwiZXhwIjoxNjc3MTUzMTU4fQ.S4_BdUks64yKiny8PTBM31rPR7KUjPJo08qJAE1GHbk';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,7 +21,7 @@ describe('TokenService', () => {
 
   it('should be auth', () => {
     localStorage.setItem('token', 'fake-token');
-    localStorage.setItem('role', 'Admin');
+    localStorage.setItem('role', 'admin');
     const result = service.isAuth;
     expect(result).toBeTrue();
   });
@@ -35,11 +34,11 @@ describe('TokenService', () => {
   });
 
   it('should write token', () => {
-    const fakeId = '626adeb5fad7e379ef43807e';
+    const fakeId = '63efa73ed5d2f9be07fe986c';
     const fakeEmail = 'user1@gmail.com';
-    const fakeRole = 'Admin';
-    const fakeIat = '1653140819285';
-    const fakeExp = '1653745619285';
+    const fakeRole = 'admin';
+    const fakeIat = '1677152558';
+    const fakeExp = '1677153158';
     service.writeToken(fakeToken);
     expect(localStorage.getItem('token')).toEqual(fakeToken);
     expect(localStorage.getItem('id')).toEqual(fakeId);
