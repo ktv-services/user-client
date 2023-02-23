@@ -65,5 +65,18 @@ describe('TokenService', () => {
     expect(result).toEqual(fakeToken);
   });
 
+  it('should get exp', () => {
+    const fakeExp = 1677153158;
+    service.writeToken(fakeToken);
+    const result = service.getExpiredDate();
+    expect(result).toBe(fakeExp);
+  });
+
+  it('should check if token expired', () => {
+    service.writeToken(fakeToken);
+    const result = service.isTokenExpired();
+    expect(result).toBeTruthy();
+  });
+
 
 });

@@ -43,4 +43,14 @@ export class TokenService {
     return localStorage.getItem('token');
   }
 
+  public isTokenExpired(): boolean {
+    const currentDate = Math.floor(new Date().getTime()/1000);
+    const expiredDate = this.getExpiredDate();
+    return (currentDate - expiredDate) > 0;
+  }
+
+  public getExpiredDate(): number {
+    return Number(localStorage.getItem('exp'));
+  }
+
 }

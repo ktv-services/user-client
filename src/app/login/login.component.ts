@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     };
     this.loginService.signIn(login).pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
       if (response) {
-        console.log(response);
         this.handleResponse(response);
       }
     });
@@ -51,14 +50,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private handleResponse(response: any): void {
     if (response.statusCode === 401) {
-      this.snackbar.open(response.message, 'Close', {
-        duration: 3000,
-        verticalPosition: 'top'
-      });
+      this.displaySnackBar(response.message);
     } else {
       this.tokenService.writeToken(response.access_token);
-      this.router.navigate(['/cabinet']).then();
+      if (this.tokenService.isAuth) {
+        this.router.navigate(['/cabinet']).then();
+      } else {
+        this.displaySnackBar('You don\'t have access!');
+      }
     }
+  }
+
+  private displaySnackBar(message: string): void {
+    this.snackbar.open(message, 'Close', {
+      duration: 3000,
+      verticalPosition: 'top'
+    });
   }
 
   ngOnDestroy() {

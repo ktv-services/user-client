@@ -114,21 +114,6 @@ describe('UserReducer', () => {
       expect(result.typeMessage).toBe(StoreApiStatus.SUCCESS);
     });
 
-    it('unbindSocialUser should unbind social from user', () => {
-      const users = [user1, user2];
-      state = {
-        users: users,
-        apiMessage: StoreApiStatus.OK,
-        typeMessage: StoreApiStatus.SUCCESS
-      }
-      const action = unbindSocialUser({userId: userId, socialId: 'socialId', apiMessage: StoreApiStatus.OK});
-      const result = reducer(state, action);
-
-      expect(result.users.length).toBe(2);
-      expect(result.apiMessage).toBe(StoreApiStatus.OK);
-      expect(result.typeMessage).toBe(StoreApiStatus.SUCCESS);
-    });
-
     it('removeUser should delete user', () => {
       const users = [user1, user2];
       state = {

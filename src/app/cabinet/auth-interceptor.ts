@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (
-      request.url.includes('/users/') || request.url.includes('/permissions/') || request.url.includes('/roles/')
+      request.url.includes('/users/') || request.url.includes('/roles/')
     ) {
       request = request.clone({
         setHeaders: {

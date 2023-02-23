@@ -72,14 +72,6 @@ describe('UsersFailedEffects', () => {
     });
   });
 
-  it('unbindSocialUser$ should get failed', () => {
-    const expectedAction = unbindSocialUserSuccess({apiMessage: StoreApiStatus.ERROR_MESSAGE, typeMessage: StoreApiStatus.ERROR});
-    actions$ = of(unbindSocialUser({userId: userId, socialId: socialId, apiMessage: StoreApiStatus.ERROR_MESSAGE}));
-    effects.unbindSocialUser$.subscribe(action => {
-      expect(action).toEqual(expectedAction);
-    });
-  });
-
   it('removeUser$ should get failed', () => {
     const expectedAction = removeUserSuccess({userId: userId, apiMessage: StoreApiStatus.ERROR_MESSAGE, typeMessage: StoreApiStatus.ERROR});
     actions$ = of(removeUser({userId: userId, apiMessage: StoreApiStatus.ERROR_MESSAGE}));

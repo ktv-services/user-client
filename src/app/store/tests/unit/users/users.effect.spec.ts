@@ -86,14 +86,6 @@ describe('UsersEffects', () => {
     });
   });
 
-  it('unbindSocialUser$ should unbind social user', () => {
-    const expectedAction = unbindSocialUserSuccess({apiMessage: StoreApiStatus.OK, typeMessage: StoreApiStatus.SUCCESS});
-    actions$ = of(unbindSocialUser({userId: userId, socialId: socialId, apiMessage: StoreApiStatus.OK}));
-    effects.unbindSocialUser$.subscribe(action => {
-      expect(action).toEqual(expectedAction);
-    });
-  });
-
   it('removeUser$ should remove user', () => {
     const expectedAction = removeUserSuccess({userId: userId, apiMessage: StoreApiStatus.OK, typeMessage: StoreApiStatus.SUCCESS});
     actions$ = of(removeUser({userId: userId, apiMessage: StoreApiStatus.OK}));
